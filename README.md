@@ -1,4 +1,1 @@
-https://github.com/alibaba/COLA/tree/master/cola-components/cola-component-catchlog-starter
-https://github.com/alibaba/COLA/tree/master/cola-components/cola-component-domain-starter
-https://github.com/alibaba/COLA/tree/master/cola-components/cola-component-dto
-https://github.com/alibaba/COLA/tree/master/cola-components/cola-component-exception
+本项目旨在编写一个符合DDD规范的、开箱即用的、spring脚手架

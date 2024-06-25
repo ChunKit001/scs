@@ -10,7 +10,7 @@
     <name>scs-web</name>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -18,8 +18,8 @@
 
         <cola.components.version>5.0.0</cola.components.version>
 
-        <spring-boot.version>2.7.2</spring-boot.version>
-        <mybatis-starter.version>2.2.2</mybatis-starter.version>
+        <spring-boot.version>3.3.1</spring-boot.version>
+        <mybatis-starter.version>3.0.3</mybatis-starter.version>
     </properties>
 
     <modules>
@@ -102,6 +102,11 @@
                 are declared in spring-boot-dependencies
             -->
             <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
+            </dependency>
+            <dependency>
                 <groupId>javax.el</groupId>
                 <artifactId>javax.el-api</artifactId>
                 <version>3.0.0</version>
@@ -109,12 +114,23 @@
             <!--Validation API End -->
 
             <!-- Misc -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.83</version>
-            </dependency>
             <!-- Misc End -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.33</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.el</artifactId>
+                <version>4.0.2</version>
+            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.lmax</groupId>-->
+<!--                <artifactId>disruptor</artifactId>-->
+<!--                <version>4.0.0</version>-->
+<!--            </dependency>-->
+
         </dependencies>
     </dependencyManagement>
 

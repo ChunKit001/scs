@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.scs.customer.executor.CustomerAddCmdExe;
 import com.scs.customer.executor.query.CustomerListByNameQryExe;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 
 @Service
