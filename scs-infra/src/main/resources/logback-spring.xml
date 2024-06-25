@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!-- https://github.com/spring-projects/spring-boot/blob/v1.4.2.RELEASE/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
-    <property name="APP_NAME" value="scs-web"/>
-    <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs"/>
-    <property name="LOG_FILE" value="${LOG_PATH}/application.log"/>
+    <property name="APP_NAME" value="scs-web" />
+    <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs" />
+    <property name="LOG_FILE" value="${LOG_PATH}/application.log" />
 
-    <!-- 引入AsyncAppender -->
-    <appender name="ASYNC_APPLICATION" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="APPLICATION_ASYNC"/>
-    </appender>
-
-    <appender name="APPLICATION_ASYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="APPLICATION"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_FILE}</file>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>async${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>7</maxHistory>
             <maxFileSize>50MB</maxFileSize>
             <totalSizeCap>20GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
-    <!-- 异步控制台输出 -->
-    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="CONSOLE_ASYNC"/>
-    </appender>
-
-    <appender name="CONSOLE_ASYNC" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>utf8</charset>
@@ -37,7 +29,7 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="ASYNC_CONSOLE"/>
-        <appender-ref ref="ASYNC_APPLICATION"/>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="APPLICATION" />
     </root>
 </configuration>

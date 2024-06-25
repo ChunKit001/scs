@@ -1,11 +1,6 @@
 package com.scs.dto.event;
 
-/**
- * CustomerCreatedEvent
- *
- * @author Frank Zhang
- * @date 2019-01-04 10:32 AM
- */
+
 public class CustomerCreatedEvent{
 
     private String customerId;

@@ -6,11 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-/**
- * Spring Boot Starter
- *
- * @author Frank Zhang
- */
+ 
 @EnableScheduling
 @EnableAsync
 @SpringBootApplication(scanBasePackages = {"com.scs", "com.alibaba.cola"})
