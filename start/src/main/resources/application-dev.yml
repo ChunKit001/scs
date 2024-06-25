@@ -5,5 +5,3 @@ spring:
     url: jdbc:mysql://localhost:3306/test
     username: root
 
-server:
-  port: 1010
