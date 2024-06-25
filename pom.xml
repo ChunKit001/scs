@@ -125,12 +125,6 @@
                 <artifactId>jakarta.el</artifactId>
                 <version>4.0.2</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>com.lmax</groupId>-->
-<!--                <artifactId>disruptor</artifactId>-->
-<!--                <version>4.0.0</version>-->
-<!--            </dependency>-->
-
         </dependencies>
     </dependencyManagement>
 
@@ -154,7 +148,7 @@
                     <version>3.4.0</version>
                 </plugin>
                 <plugin>
-                     <artifactId>maven-deploy-plugin</artifactId>
+                    <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
 
@@ -165,5 +159,61 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--先排除所有的配置文件-->
+                <excludes>
+                    <exclude>application*.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--引入所需环境的配置文件-->
+                <filtering>true</filtering>
+                <includes>
+                    <include>application.yml</include>
+                    <include>application-${profile.active}.yml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!--默认激活-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile.active>dev</profile.active>
+                <logging.level>debug</logging.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profile.active>prod</profile.active>
+                <logging.level>info</logging.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.active>test</profile.active>
+                <logging.level>debug</logging.level>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>
