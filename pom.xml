@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -7,7 +8,7 @@
     <artifactId>scs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>scs-web</name>
+    <name>scs</name>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -20,6 +21,8 @@
 
         <spring-boot.version>3.3.1</spring-boot.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
+        <dependency-check-maven.version>9.2.0</dependency-check-maven.version>
+
     </properties>
 
     <modules>
@@ -157,6 +160,11 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.github.wvengen</groupId>
+                    <artifactId>proguard-maven-plugin</artifactId>
+                    <version>2.6.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <resources>
@@ -178,12 +186,43 @@
             </resource>
         </resources>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>com.github.wvengen</groupId>-->
+<!--                <artifactId>proguard-maven-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>proguard</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <proguardInclude>${project.basedir}/proguard.cfg</proguardInclude>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <classifier>exec</classifier>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <configuration>
+                    <autoUpdate>true</autoUpdate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
