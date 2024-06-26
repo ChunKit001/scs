@@ -21,6 +21,7 @@ public class CustomerController {
     public String helloWorld() {
         String str = "Hello, welcome to COLA world!";
         log.info(str);
+
         return str;
     }
 
