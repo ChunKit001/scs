@@ -6,10 +6,12 @@ import com.scs.api.CustomerServiceI;
 import com.scs.dto.CustomerAddCmd;
 import com.scs.dto.CustomerListByNameQry;
 import com.scs.dto.data.CustomerDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 public class CustomerController {
 
     @Autowired
@@ -17,7 +19,9 @@ public class CustomerController {
 
     @GetMapping(value = "/helloworld")
     public String helloWorld(){
-        return "Hello, welcome to COLA world!";
+        String str = "Hello, welcome to COLA world!";
+        log.info(str);
+        return str;
     }
 
     @GetMapping(value = "/customer")

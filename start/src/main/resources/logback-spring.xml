@@ -7,7 +7,7 @@
     <property name="LOG_FILE" value="${LOG_PATH}/application.log" />
 
     <appender name="APPLICATION"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--定义日志输出的路径-->
         <file>${LOG_FILE}</file>
         <encoder>
