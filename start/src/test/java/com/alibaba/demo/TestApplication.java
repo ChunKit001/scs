@@ -1,8 +1,6 @@
 package com.scs;
 
-import com.scs.Application;
 import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 
 public class TestApplication {
 

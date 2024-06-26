@@ -4,3 +4,10 @@ spring:
     password: root
     url: jdbc:mysql://localhost:3306/test
     username: root
+
+print:
+  config: false
+
+logging:
+  level:
+    root: INFO

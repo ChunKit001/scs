@@ -4,7 +4,7 @@ import com.scs.dto.data.CustomerDTO;
 import lombok.Data;
 
 @Data
-public class CustomerAddCmd{
+public class CustomerAddCmd {
 
     private CustomerDTO customerDTO;
 
