@@ -25,7 +25,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/customer")
-    public MultiResponse<CustomerDTO> listCustomerByName(@RequestParam(required = false) String name){
+    public MultiResponse<CustomerDTO> listCustomerByName(@RequestParam(required = false,name = "name") String name){
         CustomerListByNameQry customerListByNameQry = new CustomerListByNameQry();
         customerListByNameQry.setName(name);
         return customerService.listByName(customerListByNameQry);

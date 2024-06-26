@@ -1,3 +1,6 @@
 spring:
   profiles:
     active: @profile.active@
+
+corn:
+  ping: "0 0/5 * * * *"
