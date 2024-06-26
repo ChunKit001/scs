@@ -11,5 +11,4 @@ public class ScsHandler {
     public void a(){
         log.info("a");
     }
-
 }

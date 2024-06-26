@@ -9,6 +9,8 @@
     <packaging>pom</packaging>
     <name>scs-web</name>
 
+
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
