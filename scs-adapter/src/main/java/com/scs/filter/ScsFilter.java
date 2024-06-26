@@ -1,17 +1,12 @@
 package com.scs.filter;
 
-import java.io.IOException;
-
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Slf4j
 @WebFilter(filterName = "scsFilter", urlPatterns = "/*")

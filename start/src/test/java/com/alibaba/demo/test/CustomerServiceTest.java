@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * This is for integration test.
- *
+ * <p>
  * Created by fulan.zjf on 2017/11/29.
  */
 @RunWith(SpringRunner.class)
@@ -32,7 +32,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void testCustomerAddSuccess(){
+    public void testCustomerAddSuccess() {
         //1.prepare
         CustomerAddCmd customerAddCmd = new CustomerAddCmd();
         CustomerDTO customerDTO = new CustomerDTO();
@@ -47,7 +47,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void testCustomerAddCompanyNameConflict(){
+    public void testCustomerAddCompanyNameConflict() {
         //1.prepare
         CustomerAddCmd customerAddCmd = new CustomerAddCmd();
         CustomerDTO customerDTO = new CustomerDTO();

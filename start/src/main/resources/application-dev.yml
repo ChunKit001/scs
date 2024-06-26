@@ -6,3 +6,10 @@ spring:
     username: root
   main:
     lazy-initialization: true
+
+print:
+  config: true
+
+logging:
+  level:
+    root: DEBUG

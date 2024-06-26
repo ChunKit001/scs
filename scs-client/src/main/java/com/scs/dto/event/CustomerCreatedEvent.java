@@ -1,7 +1,7 @@
 package com.scs.dto.event;
 
 
-public class CustomerCreatedEvent{
+public class CustomerCreatedEvent {
 
     private String customerId;
 

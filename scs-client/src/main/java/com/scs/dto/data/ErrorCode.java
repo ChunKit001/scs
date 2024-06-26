@@ -1,6 +1,6 @@
 package com.scs.dto.data;
 
-public enum ErrorCode{
+public enum ErrorCode {
     B_CUSTOMER_companyNameConflict("B_CUSTOMER_companyNameConflict", "客户公司名冲突");
 
     private final String errCode;

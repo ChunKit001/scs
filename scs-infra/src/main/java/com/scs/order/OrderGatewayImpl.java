@@ -1,5 +1,5 @@
 package com.scs.order;
 
-public class OrderGatewayImpl{
+public class OrderGatewayImpl {
 
 }
