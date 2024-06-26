@@ -4,3 +4,8 @@ spring:
 
 corn:
   ping: "0 0/5 * * * *"
+
+#  ????????
+biz:
+  ping: ${corn.ping}
+  ra: ${random.value}
