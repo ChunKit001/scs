@@ -67,7 +67,7 @@ public class ScsAspect {
      * 1、使用within表达式匹配
      * 下面示例表示匹配com.leo.controller包下所有的类的方法
      */
-    @Pointcut("within(com.leo.controller..*)")
+    @Pointcut("within(com.scs.web.*.*)")
     public void pointcutWithin(){
 
     }
@@ -75,7 +75,7 @@ public class ScsAspect {
     /**
      * 2、this匹配目标指定的方法，此处就是HelloController的方法
      */
-    @Pointcut("this(com.leo.controller.HelloController)")
+    @Pointcut("this(com.scs.web)")
     public void pointcutThis(){
 
     }
@@ -83,7 +83,7 @@ public class ScsAspect {
     /**
      * 3、target匹配实现UserInfoService接口的目标对象
      */
-    @Pointcut("target(com.leo.service.UserInfoService)")
+    @Pointcut("target(com.scs.web)")
     public void pointcutTarge(){
 
     }
