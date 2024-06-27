@@ -21,12 +21,11 @@ public class CustomerController {
     public String helloWorld() {
         String str = "Hello, welcome to COLA world!";
         log.info(str);
-
         return str;
     }
 
     @GetMapping(value = "/customer")
-    public MultiResponse<CustomerDTO> listCustomerByName(@RequestParam(required = false, name = "name") String name) {
+    public MultiResponse<CustomerDTO> jjjjjlistCustomerByName(@RequestParam(required = false, name = "name") String name) {
         CustomerListByNameQry customerListByNameQry = new CustomerListByNameQry();
         customerListByNameQry.setName(name);
         return customerService.listByName(customerListByNameQry);

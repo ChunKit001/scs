@@ -2,8 +2,10 @@ package com.scs.filter;
 
 import cn.hutool.crypto.digest.MD5;
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -14,15 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@Component
 @Slf4j
+@WebFilter(filterName = "SignFilter", urlPatterns = "/*")
+@Component
+@Order(1)
 public class SignFilter implements Filter {
 
-    private List<String> unFilterUrl = new ArrayList<>();
-
-
     private static final String KEY = "123";
-
     private static final String SIGN = "sign";
     private static final String TS = "timestamp";
 
@@ -59,6 +59,7 @@ public class SignFilter implements Filter {
 //            processForm(form, signStr);
         }
         filterChain.doFilter(servletRequest, servletResponse);
+        log.info("filter finish");
     }
 
     private void processJson(String json, String sign) {
@@ -84,5 +85,14 @@ public class SignFilter implements Filter {
         if (!sign.equals(s1)) {
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public void init(FilterConfig config) {
+        log.info("ScsFilter init");
+    }
+    @Override
+    public void destroy() {
+        log.info("ScsFilter destroy");
     }
 }
