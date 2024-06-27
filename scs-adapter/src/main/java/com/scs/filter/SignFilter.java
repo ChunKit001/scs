@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-//@Component
+@Component
 @Slf4j
 public class SignFilter implements Filter {
 
@@ -34,24 +35,30 @@ public class SignFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String timeStampStr = req.getHeader(TS);
 
-        if (timeStampStr == null) {
-            throw new RuntimeException();
-        }
+//        if (timeStampStr == null) {
+//            throw new RuntimeException();
+//        }
 
-        long l = Long.parseLong(timeStampStr);
-        if (System.currentTimeMillis() - l > 1000 * 1200) {
-            throw new RuntimeException();
-        }
+//        long l = Long.parseLong(timeStampStr);
+//        if (System.currentTimeMillis() - l > 1000 * 1200) {
+//            throw new RuntimeException();
+//        }
 
         String signStr = req.getHeader(SIGN);
+//        if (signStr == null) {
+//            throw new RuntimeException();
+//        }
 
-        if (req.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
+        String contentType = req.getContentType();
+
+        if (MediaType.APPLICATION_JSON_VALUE.equals(contentType)) {
             String json = req.getReader().lines().collect(Collectors.joining());
-            processJson(json, signStr);
-        } else if (req.getContentType().equals(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
+//            processJson(json, signStr);
+        } else if (MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)) {
             String form = req.getReader().lines().collect(Collectors.joining());
-            processForm(form, signStr);
+//            processForm(form, signStr);
         }
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private void processJson(String json, String sign) {

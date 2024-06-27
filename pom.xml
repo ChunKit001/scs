@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>scs.web</groupId>
-    <artifactId>scs-parent</artifactId>
+    <artifactId>scs</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>scs</name>
@@ -22,6 +22,7 @@
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <hutool.version>5.8.28</hutool.version>
         <dependency-check-maven.version>9.2.0</dependency-check-maven.version>
+        <guava.version>33.2.1-jre</guava.version>
     </properties>
 
     <modules>
@@ -48,16 +49,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
 
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
             <!--Project modules-->
             <dependency>
                 <groupId>scs.web</groupId>

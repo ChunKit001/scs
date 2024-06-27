@@ -17,23 +17,22 @@ public class ScsAspect {
 
     @Before("test()")
     public void beforeAdvice() {
-        log.info("beforeAdvice...");
+        log.info("before advice");
     }
 
     @After("test()")
     public void afterAdvice() {
-        log.info("afterAdvice...");
+        log.info("after advice");
     }
 
     @Around("test()")
     public void aroundAdvice(ProceedingJoinPoint proceedingJoinPoint) {
-        log.info("before");
+        log.info("before around");
         try {
             proceedingJoinPoint.proceed();
         } catch (Throwable t) {
             t.printStackTrace();
         }
-        log.info("after");
+        log.info("after around");
     }
-
 }
