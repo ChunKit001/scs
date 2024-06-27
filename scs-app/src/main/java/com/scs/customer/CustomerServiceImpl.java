@@ -1,6 +1,5 @@
 package com.scs.customer;
 
-import com.alibaba.cola.catchlog.CatchAndLog;
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.scs.api.CustomerServiceI;
@@ -9,7 +8,7 @@ import com.scs.customer.executor.query.CustomerListByNameQryExe;
 import com.scs.dto.CustomerAddCmd;
 import com.scs.dto.CustomerListByNameQry;
 import com.scs.dto.data.CustomerDTO;
-import com.scs.handler.ScsHandler;
+import com.scs.handler.ScsAsyncHandler;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class CustomerServiceImpl implements CustomerServiceI {
     private CustomerListByNameQryExe customerListByNameQryExe;
 
     @Autowired
-    private ScsHandler scsHandler;
+    private ScsAsyncHandler scsAsyncHandler;
 
     public Response addCustomer(CustomerAddCmd customerAddCmd) {
         return customerAddCmdExe.execute(customerAddCmd);
@@ -35,7 +34,7 @@ public class CustomerServiceImpl implements CustomerServiceI {
 
     @Override
     public MultiResponse<CustomerDTO> listByName(CustomerListByNameQry customerListByNameQry) {
-        scsHandler.a();
+        scsAsyncHandler.scsAsyncHandler();
         return customerListByNameQryExe.execute(customerListByNameQry);
     }
 

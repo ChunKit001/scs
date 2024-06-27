@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ScsHandler {
+public class ScsAsyncHandler {
     @Async
-    public void a(){
-        log.info("a");
+    public void scsAsyncHandler(){
+        log.info("scsAsyncHandler");
     }
 }
