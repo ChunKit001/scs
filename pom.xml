@@ -7,9 +7,7 @@
     <artifactId>scs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>scs-web</name>
-
-
+    <name>scs</name>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -23,6 +21,7 @@
         <spring-boot.version>3.3.1</spring-boot.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <hutool.version>5.8.28</hutool.version>
+        <dependency-check-maven.version>9.2.0</dependency-check-maven.version>
     </properties>
 
     <modules>
@@ -203,6 +202,21 @@
                 <configuration>
                     <classifier>exec</classifier>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <configuration>
+                    <autoUpdate>true</autoUpdate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
