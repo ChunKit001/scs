@@ -9,6 +9,7 @@ import com.scs.dto.data.CustomerDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Slf4j
@@ -25,7 +26,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/customer")
-    public MultiResponse<CustomerDTO> jjjjjlistCustomerByName(@RequestParam(required = false, name = "name") String name) {
+    public MultiResponse<CustomerDTO> listCustomerByName(@RequestParam(required = false, name = "name") String name) {
         CustomerListByNameQry customerListByNameQry = new CustomerListByNameQry();
         customerListByNameQry.setName(name);
         return customerService.listByName(customerListByNameQry);
@@ -34,5 +35,10 @@ public class CustomerController {
     @PostMapping(value = "/customer")
     public Response addCustomer(@RequestBody CustomerAddCmd customerAddCmd) {
         return customerService.addCustomer(customerAddCmd);
+    }
+
+    @PostMapping(value = "/asdf")
+    public void asdf(@RequestParam MultipartFile file) {
+        file.getName();
     }
 }

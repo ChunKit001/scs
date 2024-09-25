@@ -25,3 +25,4 @@ nbdist/
 bin/
 doc/
 .DS_Store
+/.vscode/

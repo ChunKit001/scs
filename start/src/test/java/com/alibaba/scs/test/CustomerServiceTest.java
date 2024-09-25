@@ -1,4 +1,4 @@
-package com.scs.test;
+package com.alibaba.scs.test;
 
 import com.alibaba.cola.dto.Response;
 import com.scs.api.CustomerServiceI;
