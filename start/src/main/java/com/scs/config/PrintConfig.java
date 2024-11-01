@@ -37,23 +37,22 @@ public class PrintConfig implements CommandLineRunner {
         String s = resource.getPath();
 
         log.debug("classpath:{}", s);
-        log.debug("开始输出环境变量");
+        log.debug("start to print environment variables");
         MutablePropertySources propSrcs = springEnv.getPropertySources();
         // 获取所有配置 key -> [source, key, value]
         Map<String, String[]> props = propSrcs.stream()
                 .filter(ps -> ps instanceof EnumerablePropertySource)
                 .map(ps -> (EnumerablePropertySource<?>) ps)
                 .flatMap(ps -> {
-                            String psName = ps.getName();
-                            if (psName.startsWith(APPLICATION_CONFIG)) {
-                                psName = psName.substring(31);
-                                psName = psName.substring(0, psName.length() - 1);
-                            }
-                            final String fpsName = psName;
-                            return Arrays.stream(ps.getPropertyNames())
-                                    .map(ppName -> new String[]{fpsName, ppName, springEnv.getProperty(ppName)});
-                        }
-                )
+                    String psName = ps.getName();
+                    if (psName.startsWith(APPLICATION_CONFIG)) {
+                        psName = psName.substring(31);
+                        psName = psName.substring(0, psName.length() - 1);
+                    }
+                    final String fpsName = psName;
+                    return Arrays.stream(ps.getPropertyNames())
+                            .map(ppName -> new String[] { fpsName, ppName, springEnv.getProperty(ppName) });
+                })
                 .distinct()
                 .sorted(Comparator.comparing(pArr -> pArr[1]))
                 .collect(Collectors.toMap(pArr -> pArr[1], Function.identity(), (pArr1, pArr2) -> pArr1));
@@ -85,6 +84,6 @@ public class PrintConfig implements CommandLineRunner {
                 .reduce((s1, s2) -> s1 + "\n" + s2)
                 .orElse("");
         log.debug("\n" + propStr);
-        log.debug("环境变量输出完毕");
+        log.debug("environment variables printed");
     }
 }
