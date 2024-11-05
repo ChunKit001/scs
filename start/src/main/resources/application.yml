@@ -2,13 +2,8 @@ spring:
   profiles:
     active: @profile.active@
 corn:
-  ping: "0 0/5 * * * *"
+  ping: "0 0/1 * * * *"
 
 server:
   port: 8080
   shutdown: graceful
-  
-#  ????????
-biz:
-  ping: ${corn.ping}
-  ra: ${random.value}

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class PingSchedule {
-    //    配置文件5min执行一次 缺失配置时候10min执行一次
+    // 配置文件5min执行一次 缺失配置时候10min执行一次
     @Scheduled(cron = "${corn.ping:0 0/10 * * * *}")
     public void ping() {
         log.info("Pinging server");
