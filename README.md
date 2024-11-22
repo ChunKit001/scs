@@ -1,26 +1,26 @@
-本项目旨在编写一个：
-符合DDD规范的
-开箱即用的
-安全的
-高性能的
-spring脚手架
+# 本项目旨在编写一个：\
+符合DDD规范的、开箱即用的、安全的、高性能的spring脚手架
 
-功能清单
-1.jdk21-协程替代原有tomcat线程池
-2.check-dependency
-#3.代码混淆
+环境：\
+jdk21
+
+
+功能清单：\
+1. jdk21-协程替代原有tomcat线程池 VirtualThreadConfig
+2. @Async-协程替代原有线程池 ThreadPoolConfig
+3. 日志配置、定时任务配置化  application-dev.yml
+4. check-dependency 安全依赖管理\
+   ./mvnw org.owasp:dependency-check-maven:check\
+5. 启动时输出全部变量 PrintConfig
+6. 自定义filter
+7. 自定义interceptor
+8. 接口签名校验
+
+#3.代码混淆\
 #4.jacoco-代码覆盖率
-
-定时任务配置化
-自定义filter
-自定义interceptor
-启动时输出全部变量
-不同环境使用不同日志配置
-异步调用
-配置引用与配置随机
 #websocket
 #mqtt
 
-###### QA:
+# 参考:
 
-报错直接以errMessage为什么不用CatchLogAspect字段返回到前端 不安全
+https://github.com/alibaba/COLA
