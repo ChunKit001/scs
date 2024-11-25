@@ -1,24 +1,29 @@
 package com.scs.config;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.core.task.support.TaskExecutorAdapter;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Configuration
-public class ThreadConfig   {
+@Slf4j
+public class ThreadConfig {
 
     @Bean(name = "asyncTaskExecutor")
     public AsyncTaskExecutor applicationTaskExecutor() {
-        return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+        Thread.Builder.OfVirtual ofVirtual = Thread.ofVirtual();
+        ThreadFactory factory = ofVirtual.name("vt")
+                .inheritInheritableThreadLocals(true)
+                .uncaughtExceptionHandler((t, e) -> log.error("demo virtual thread uncaughtException,{},{}", t, e))
+                .factory();
+        ExecutorService executorService = Executors.newThreadPerTaskExecutor(factory);
+
+        return new TaskExecutorAdapter(executorService);
     }
 
     @Bean

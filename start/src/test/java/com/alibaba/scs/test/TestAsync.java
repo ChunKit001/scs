@@ -28,6 +28,7 @@ public class TestAsync {
     public void testCustomerAddSuccess() {
         log.info("main thread");
         scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandlerException();
     }
 
     @After
