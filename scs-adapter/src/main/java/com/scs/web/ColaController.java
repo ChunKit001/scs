@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * cola框架的一些常用反回体
+ */
 @RestController
 @RequestMapping("cola")
 @Slf4j

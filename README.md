@@ -1,5 +1,6 @@
 # 本项目旨在编写一个：\
-符合DDD规范的、开箱即用的、安全的、高性能的spring脚手架
+符合DDD规范的、开箱即用的、安全的、高性能的java后端脚手架\
+scs=spring+cola+scaffold
 
 环境：\
 jdk21
@@ -25,3 +26,7 @@ jdk21
 # 参考:
 
 https://github.com/alibaba/COLA
+
+# 主类
+com.scs.Application\
+
