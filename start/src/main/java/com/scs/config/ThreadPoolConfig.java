@@ -29,7 +29,6 @@ public class ThreadPoolConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return (ex, method, params) -> log.error("a thread pool error has occurred ex={} "
-                + "method={} params={}", ex, method, params);
+        return (ex, method, params) -> log.error("ThreadPoolConfig get a error method={} params={}", method, params, ex);
     }
 }

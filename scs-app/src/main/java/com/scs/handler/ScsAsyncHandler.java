@@ -15,10 +15,10 @@ public class ScsAsyncHandler {
     @Async
     public void scsAsyncHandler(){
         log.info("scsAsyncHandler");
+        int a = 1/0;
     }
 
     public void scsAsyncHandlerException(){
-        log.info("scsAsyncHandler");
-        int a = 1/0;
+        log.info("scsAsyncHandlerException");
     }
 }

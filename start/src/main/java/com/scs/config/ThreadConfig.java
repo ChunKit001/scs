@@ -19,7 +19,7 @@ public class ThreadConfig {
         Thread.Builder.OfVirtual ofVirtual = Thread.ofVirtual();
         ThreadFactory factory = ofVirtual.name("vt")
                 .inheritInheritableThreadLocals(true)
-                .uncaughtExceptionHandler((t, e) -> log.error("demo virtual thread uncaughtException,{},{}", t, e))
+                .uncaughtExceptionHandler((t, e) -> log.error("virtual thread pool uncaughtException,{}", t, e))
                 .factory();
         ExecutorService executorService = Executors.newThreadPerTaskExecutor(factory);
 
@@ -28,6 +28,6 @@ public class ThreadConfig {
 
     @Bean
     public TomcatProtocolHandlerCustomizer<?> protocolHandlerCustomizer() {
-        return protocolHandler -> protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+        return protocolHandler -> protocolHandler.setExecutor(applicationTaskExecutor());
     }
 }
