@@ -8,10 +8,8 @@ import com.scs.customer.executor.query.CustomerListByNameQryExe;
 import com.scs.dto.CustomerAddCmd;
 import com.scs.dto.CustomerListByNameQry;
 import com.scs.dto.data.CustomerDTO;
-import com.scs.handler.ScsAsyncHandler;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j

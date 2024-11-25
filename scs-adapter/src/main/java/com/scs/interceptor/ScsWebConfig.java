@@ -1,16 +1,17 @@
 package com.scs.interceptor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@AllArgsConstructor
 public class ScsWebConfig implements WebMvcConfigurer {
-    @Autowired
-    private ScsInterceptor scsInterceptor;
+    private final DemoInterceptor demoInterceptor;
 
     @Override
-    public void addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry registry) {
-        registry.addInterceptor(scsInterceptor).addPathPatterns("/**").excludePathPatterns("/html/*", "/js/*");
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(demoInterceptor).addPathPatterns("/**").excludePathPatterns("/html/*", "/js/*");
     }
 }

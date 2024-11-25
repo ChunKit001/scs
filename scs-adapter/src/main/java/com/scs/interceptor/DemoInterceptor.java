@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Component
 @Order(1)
-public class ScsInterceptor implements HandlerInterceptor {
+public class DemoInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

@@ -2,13 +2,13 @@ package com.scs.customer;
 
 import com.scs.domain.customer.Customer;
 import com.scs.domain.customer.gateway.CustomerGateway;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class CustomerGatewayImpl implements CustomerGateway {
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     public Customer getByById(String customerId) {
         CustomerDO customerDO = customerMapper.getById(customerId);
