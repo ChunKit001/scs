@@ -1,6 +1,7 @@
 package com.alibaba.scs.test;
 
 import com.alibaba.cola.dto.Response;
+import com.scs.Application;
 import com.scs.api.CustomerServiceI;
 import com.scs.dto.CustomerAddCmd;
 import com.scs.dto.data.CustomerDTO;

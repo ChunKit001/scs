@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
-@WebFilter(filterName = "SignFilter", urlPatterns = "/*")
+@WebFilter(filterName = "SignFilter", urlPatterns = "/sign/*")
 @Component
-@Order(1)
+@Order(2)
 public class SignFilter implements Filter {
 
     private static final String KEY = "123";
@@ -57,7 +57,10 @@ public class SignFilter implements Filter {
         } else if (MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)) {
             String form = req.getReader().lines().collect(Collectors.joining());
 //            processForm(form, signStr);
+        }else{
+            log.info("not json or form");
         }
+
         filterChain.doFilter(servletRequest, servletResponse);
         log.info("filter finish");
     }

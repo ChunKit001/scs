@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Slf4j
-public class CustomerController {
+public class DemoController {
 
     @Autowired
     private CustomerServiceI customerService;

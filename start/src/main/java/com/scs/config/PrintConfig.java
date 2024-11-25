@@ -1,5 +1,6 @@
 package com.scs.config;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,15 +19,12 @@ import java.util.stream.Collectors;
 
 @ConditionalOnProperty(name = "print.config", havingValue = "true")
 @Slf4j
-@Component
+//@Component
+@AllArgsConstructor
 public class PrintConfig implements CommandLineRunner {
     private static final String APPLICATION_CONFIG = "applicationConfig";
 
     private final ConfigurableEnvironment springEnv;
-
-    public PrintConfig(ConfigurableEnvironment springEnv) {
-        this.springEnv = springEnv;
-    }
 
     @Override
     public void run(String... args) {
