@@ -12,33 +12,34 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@RequestMapping("demo")
 @Slf4j
 public class DemoController {
 
     @Autowired
     private CustomerServiceI customerService;
 
-    @GetMapping(value = "/helloworld")
+    @GetMapping(value = "/get")
     public String helloWorld() {
         String str = "Hello, welcome to COLA world!";
         log.info(str);
         return str;
     }
 
-    @GetMapping(value = "/customer")
+    @PostMapping(value = "/post")
     public MultiResponse<CustomerDTO> listCustomerByName(@RequestParam(required = false, name = "name") String name) {
         CustomerListByNameQry customerListByNameQry = new CustomerListByNameQry();
         customerListByNameQry.setName(name);
         return customerService.listByName(customerListByNameQry);
     }
 
-    @PostMapping(value = "/customer")
+    @PostMapping(value = "/post-json")
     public Response addCustomer(@RequestBody CustomerAddCmd customerAddCmd) {
         return customerService.addCustomer(customerAddCmd);
     }
 
-    @PostMapping(value = "/asdf")
-    public void asdf(@RequestParam MultipartFile file) {
-        file.getName();
+    @PostMapping(value = "/post-file")
+    public String postFile(@RequestParam MultipartFile file) {
+        return file.getName();
     }
 }

@@ -25,16 +25,12 @@ public class CustomerServiceImpl implements CustomerServiceI {
     @Resource
     private CustomerListByNameQryExe customerListByNameQryExe;
 
-    @Autowired
-    private ScsAsyncHandler scsAsyncHandler;
-
     public Response addCustomer(CustomerAddCmd customerAddCmd) {
         return customerAddCmdExe.execute(customerAddCmd);
     }
 
     @Override
     public MultiResponse<CustomerDTO> listByName(CustomerListByNameQry customerListByNameQry) {
-        scsAsyncHandler.scsAsyncHandler();
         return customerListByNameQryExe.execute(customerListByNameQry);
     }
 
