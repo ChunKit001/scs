@@ -1,17 +1,12 @@
-package com.scs.handler;
+package com.scs.demo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.task.support.TaskExecutorAdapter;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-
 @Slf4j
 @Component
-public class ScsAsyncHandler {
+public class AsyncService {
     @Async
     public void scsAsyncHandler(){
         log.info("scsAsyncHandler");

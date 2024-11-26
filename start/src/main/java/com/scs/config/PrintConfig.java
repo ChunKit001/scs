@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @ConditionalOnProperty(name = "print.config", havingValue = "true")
 @Slf4j
-//@Component
+@Component
 @AllArgsConstructor
 public class PrintConfig implements CommandLineRunner {
     private static final String APPLICATION_CONFIG = "applicationConfig";

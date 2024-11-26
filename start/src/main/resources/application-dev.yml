@@ -8,7 +8,7 @@ spring:
     lazy-initialization: true
 
 print:
-  config: true
+  config: false
 
 logging:
   level:

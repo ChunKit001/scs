@@ -1,7 +1,7 @@
 package com.alibaba.scs.test;
 
 import com.scs.Application;
-import com.scs.handler.ScsAsyncHandler;
+import com.scs.demo.AsyncService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class TestAsync {
 
     @Autowired
-    private ScsAsyncHandler scsAsyncHandler;
+    private AsyncService scsAsyncHandler;
 
     @Before
     public void setUp() {
@@ -27,6 +27,15 @@ public class TestAsync {
     @Test
     public void testCustomerAddSuccess() {
         log.info("main thread");
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
+        scsAsyncHandler.scsAsyncHandler();
         scsAsyncHandler.scsAsyncHandler();
         scsAsyncHandler.scsAsyncHandlerException();
     }

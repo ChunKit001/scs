@@ -17,7 +17,7 @@ public class ThreadConfig {
     @Bean(name = "asyncTaskExecutor")
     public AsyncTaskExecutor applicationTaskExecutor() {
         Thread.Builder.OfVirtual ofVirtual = Thread.ofVirtual();
-        ThreadFactory factory = ofVirtual.name("vt")
+        ThreadFactory factory = ofVirtual.name("vt-",0L)
                 .inheritInheritableThreadLocals(true)
                 .uncaughtExceptionHandler((t, e) -> log.error("virtual thread pool uncaughtException,{}", t, e))
                 .factory();
