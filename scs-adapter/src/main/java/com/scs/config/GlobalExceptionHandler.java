@@ -1,8 +1,10 @@
 package com.scs.config;
 
 import ch.qos.logback.core.util.StringUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.exception.BizException;
+import com.scs.ProjectException;
 import com.scs.util.RequestUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -31,23 +33,18 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(BizException.class)
+    @ExceptionHandler(ProjectException.class)
     @ResponseBody
-    public Response bizHandler(HttpServletRequest request, BizException e) {
+    public Response bizHandler(HttpServletRequest request, ProjectException e) {
 
         String errCode = e.getErrCode();
         if (StringUtil.isNullOrEmpty(errCode)) {
             errCode = "000000";
         }
 
-        String message = e.getMessage();
-        if (StringUtil.isNullOrEmpty(message)) {
-            message = "internal exception";
-        }
+        String[] errMessage = e.getErrMessage();
 
-        String[] split = message.split(",");
-
-        String message1 = messageSource.getMessage(errCode, split, "", request.getLocale());
+        String message1 = messageSource.getMessage(errCode, errMessage, "", request.getLocale());
 
         return Response.buildFailure(errCode, message1);
     }
