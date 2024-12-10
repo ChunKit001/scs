@@ -4,6 +4,9 @@ import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.PageResponse;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
+import com.alibaba.cola.exception.BizException;
+import com.scs.util.RequestUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +22,14 @@ import java.util.List;
 @Slf4j
 public class ColaController {
     @GetMapping("base-s")
-    public Response baseS() {
+    public Response baseS(HttpServletRequest request) {
         return Response.buildSuccess();
     }
 
     @GetMapping("base-f")
     public Response baseF() {
-        int a = 1 / 0;
-        return Response.buildSuccess();
+//        通过调整 Accept-Language 为 en-US 可以看到返回的错误信息是英文
+        throw new BizException("000001","a,b");
     }
 
     @GetMapping("single")
