@@ -1,7 +1,6 @@
 package com.alibaba.scs.test;
 
 import com.scs.Application;
-import com.scs.api.AspectServiceI;
 import com.scs.demo.AspectService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;

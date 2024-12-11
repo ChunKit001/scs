@@ -23,7 +23,9 @@ public class MessageSourceConfig {
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(3600);  // 默认是 -1 表示永远缓存
         // 可选：设置是否使用代码作为默认消息
-        messageSource.setUseCodeAsDefaultMessage(true);
+//        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setFallbackToSystemLocale(false);
+
         return messageSource;
     }
 

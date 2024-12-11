@@ -1,8 +1,8 @@
 package com.scs.dto.data;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 
 @Data
 public class CustomerDTO {
