@@ -1,22 +1,25 @@
 package com.scs.config;
 
 import ch.qos.logback.core.util.StringUtil;
-import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.cola.dto.Response;
-import com.alibaba.cola.exception.BizException;
 import com.scs.ProjectException;
-import com.scs.util.RequestUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.http.ProblemDetail;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
@@ -25,7 +28,6 @@ public class GlobalExceptionHandler {
     private MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
-    @ResponseBody
     public Response baseHandler(HttpServletRequest request, Exception e) {
         log.error("GlobalExceptionHandler get a error [uri={},query={}]",
                 request.getRequestURI(), request.getQueryString(), e);
@@ -34,7 +36,6 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ProjectException.class)
-    @ResponseBody
     public Response bizHandler(HttpServletRequest request, ProjectException e) {
 
         String errCode = e.getErrCode();
@@ -48,4 +49,34 @@ public class GlobalExceptionHandler {
 
         return Response.buildFailure(errCode, message1);
     }
+
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Response httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        try {
+            String method = ex.getMethod();
+            ProblemDetail body = ex.getBody();
+            String title = body.getTitle();
+
+            return Response.buildFailure("000002", title);
+        } catch (Exception e) {
+            return Response.buildFailure("000002", "");
+        }
+    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Response handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        try {
+            List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+            String message = errors.stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.joining(","));
+
+            return Response.buildFailure("000003", message);
+        } catch (Exception e) {
+            return Response.buildFailure("000003", "");
+        }
+    }
+
 }

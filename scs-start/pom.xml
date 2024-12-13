@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>start</artifactId>
+    <artifactId>scs-start</artifactId>
     <packaging>jar</packaging>
     <name>start</name>
 

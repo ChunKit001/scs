@@ -9,4 +9,7 @@ public class ValidDTO {
 
     @NotNull
     private String username;
+
+    @NotNull
+    private String phone;
 }

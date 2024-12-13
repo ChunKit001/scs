@@ -28,44 +28,37 @@ public class DemoController {
     private DemoServiceI demoServiceI;
 
     @GetMapping("base-s")
-    @ResponseBody
     public Response baseS() {
         return Response.buildSuccess();
     }
 
     @GetMapping("base-f")
-    @ResponseBody
     public Response baseF() {
 //        通过调整 Accept-Language 为 en-US 可以看到返回的错误信息是英文
-        throw new ProjectException("000001", "a", "b");
+        throw new ProjectException("100000", "a", "b");
     }
 
     @PostMapping(value = "/post")
-    @ResponseBody
     public String listCustomerByName(@RequestParam(required = false, name = "name") String name) {
         return "success";
     }
 
     @PostMapping(value = "/post-json")
-    @ResponseBody
     public String addCustomer(@RequestBody CustomerAddCmd customerAddCmd) {
         return "success";
     }
 
     @PostMapping(value = "/post-file")
-    @ResponseBody
     public String postFile(@RequestParam MultipartFile file) {
         return file.getName();
     }
 
     @GetMapping("single")
-    @ResponseBody
     public SingleResponse<String> base() {
         return SingleResponse.of("single");
     }
 
     @GetMapping("page")
-    @ResponseBody
     public PageResponse<String> page() {
         PageResponse<String> response = PageResponse.of(10, 1);
         response.setData(List.of("p", "a", "g", "e"));
@@ -73,16 +66,12 @@ public class DemoController {
     }
 
     @GetMapping("list")
-    @ResponseBody
     public MultiResponse<String> list() {
         return MultiResponse.of(List.of("p", "a", "g", "e"));
     }
 
     @PostMapping("valid")
-    @ResponseBody
     public String valid(@RequestBody @Validated ValidDTO validDTO) {
-        return "valid";
+        return demoServiceI.valid1(validDTO);
     }
-
-
 }

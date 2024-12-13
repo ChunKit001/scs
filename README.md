@@ -20,17 +20,20 @@ jdk21
 10. spring优雅关闭
 11. Bean实例化执行事例
 12. i18n
+13. validation框架
+14. surefire单元测试并行化
+15. assembly打包
 
 #jacoco-代码覆盖率
 #配置文件加密
 #代码混淆
-#自定义打包为标准项目解构
 #自定义打包为graalvm解构
 #自定义打包为docker镜像
 
 # 参考:
 
 https://github.com/alibaba/COLA
+https://github.com/zhangkaitao/es.git
 
 # 主类
 com.scs.Application\

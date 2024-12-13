@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 public class DemoService implements DemoServiceI {
 
     @Override
-    public String valid1(ValidDTO validDTO) {
+    public String valid1(@Validated ValidDTO validDTO) {
         return "s";
     }
 }
