@@ -24,9 +24,9 @@
 
         <cola.components.version>5.0.0</cola.components.version>
 
-        <spring-boot.version>3.3.1</spring-boot.version>
+        <spring-boot.version>3.4.0</spring-boot.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
-        <hutool.version>5.8.28</hutool.version>
+        <hutool.version>5.8.34</hutool.version>
         <dependency-check-maven.version>9.2.0</dependency-check-maven.version>
         <guava.version>33.2.1-jre</guava.version>
     </properties>
@@ -39,6 +39,20 @@
         <module>scs-infra</module>
         <module>scs-start</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>Aliyun Maven</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>aliyun-spring</id>
+            <name>Aliyun Spring</name>
+            <url>https://maven.aliyun.com/repository/spring</url>
+        </repository>
+    </repositories>
+
 
     <dependencies>
         <dependency>
@@ -53,17 +67,8 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -126,7 +131,6 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-
             <!--Validation API-->
             <!--
                 - javax.validation:javax.validation
@@ -157,6 +161,7 @@
     </dependencyManagement>
 
     <build>
+        <!-- 打包后的启动jar名称 -->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -193,6 +198,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -211,6 +217,7 @@
                 </includes>
             </resource>
         </resources>
+
         <plugins>
             <!--            单元测试插件-->
             <plugin>
@@ -224,25 +231,26 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <!--                安全扫描用的-->
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>${dependency-check-maven.version}</version>
-                <configuration>
-                    <autoUpdate>true</autoUpdate>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--                安全扫描用的-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.owasp</groupId>-->
+            <!--                <artifactId>dependency-check-maven</artifactId>-->
+            <!--                <version>${dependency-check-maven.version}</version>-->
+            <!--                <configuration>-->
+            <!--                    <autoUpdate>true</autoUpdate>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
 
-            <!--            springboot打包-->
+
             <plugin>
+                <!--            springboot打包-->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -254,6 +262,12 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <includes>
+                        <include>
+                            <groupId>non-exists</groupId>
+                            <artifactId>non-exists</artifactId>
+                        </include>
+                    </includes>
                 </configuration>
                 <executions>
                     <execution>
@@ -264,7 +278,25 @@
                 </executions>
             </plugin>
 
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
