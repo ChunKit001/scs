@@ -4,7 +4,7 @@ import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.PageResponse;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.scs.ProjectException;
+import com.scs.app.ProjectException;
 import com.scs.client.api.DemoServiceI;
 import com.scs.client.dto.CustomerAddCmd;
 import com.scs.client.dto.ValidDTO;

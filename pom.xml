@@ -5,7 +5,7 @@
 
     <groupId>scs.web</groupId>
     <artifactId>scs</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>scs</name>
 
@@ -284,7 +284,7 @@
                 <version>3.4.2</version>
                 <configuration>
                     <descriptors>
-                        <descriptor>assembly/assembly.xml</descriptor>
+                        <descriptor>scs-start/src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>

@@ -1,7 +1,7 @@
 package com.scs.adapter.config;
 
 import com.alibaba.cola.dto.Response;
-import com.scs.ProjectException;
+import com.scs.app.ProjectException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
