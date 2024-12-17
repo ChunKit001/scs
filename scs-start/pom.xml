@@ -11,7 +11,7 @@
 
     <artifactId>scs-start</artifactId>
     <packaging>jar</packaging>
-    <name>start</name>
+    <name>scs-start</name>
 
     <dependencies>
         <dependency>
