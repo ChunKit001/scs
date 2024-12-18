@@ -37,7 +37,7 @@ mkdir -p "${PARENT_DIR}/logs"
 # 构建 nohup 命令
 NOHUP_COMMAND="nohup java \
   -Dspring.config.location=$CONFIG_PATH \
-  --spring.profiles.active=dev \
+  -Dspring.profiles.active=dev \
   -jar \"$JAR_FILE\" \
   > $LOG_PATH 2>&1 &"
 
