@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Properties>
-        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
-        <Property name="LOG_PATH">${user.home}/start/logs</Property>
-        <Property name="LOG_FILE">${LOG_PATH}/application.log</Property>
+        <Property name="APP_NAME">start</Property>
+        <Property name="LOG_PATH">${sys:user.home}/${APP_NAME}/logs</Property>
+        <Property name="LOG_FILE">${LOG_PATH}/app.log</Property>
+        <Property name="LOG_LEVEL">${sys:logging.level.root:-INFO}</Property>
+        <Property name="LOG_PATTERN">%d{HH:mm:ss.SSS} [%t] %level %logger %msg%n</Property>
     </Properties>
+
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-        </Console>
-        <RollingFile name="ApplicationLog" fileName="${LOG_FILE}"
-                     filePattern="${LOG_PATH}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="FILE" fileName="${LOG_FILE}" filePattern="${LOG_FILE}.%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="50MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="20"/>
+            <DefaultRolloverStrategy max="7" totalSizeCap="20 GB"/>
         </RollingFile>
+
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <Async name="ASYNC_FILE" blocking="true">
+            <AppenderRef ref="FILE"/>
+        </Async>
     </Appenders>
+
     <Loggers>
-        <Logger name="com.scs" level="debug" additivity="false">
-            <AppenderRef ref="ApplicationLog"/>
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="com.apache.ibatis" level="trace" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Root level="info">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="ApplicationLog"/>
+        <Root level="${LOG_LEVEL}">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="ASYNC_FILE"/>
         </Root>
     </Loggers>
 </Configuration>
