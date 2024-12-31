@@ -268,12 +268,6 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <includes>
-                        <include>
-                            <groupId>non-exists</groupId>
-                            <artifactId>non-exists</artifactId>
-                        </include>
-                    </includes>
                 </configuration>
                 <executions>
                     <execution>
@@ -290,8 +284,9 @@
                 <version>3.4.2</version>
                 <configuration>
                     <descriptors>
-                        <descriptor>scs-start/src/main/assembly/assembly.xml</descriptor>
+                        <descriptor>scs-start/assembly/assembly.xml</descriptor>
                     </descriptors>
+                    <!--                    <outputDirectory>${project.parent.basedir}/dist</outputDirectory>-->
                 </configuration>
                 <executions>
                     <execution>

@@ -34,6 +34,8 @@ LOG_PATH="${PARENT_DIR}/logs/${APP_NAME}.log"
 # 创建日志目录（如果不存在）
 mkdir -p "${PARENT_DIR}/logs"
 
+CLASSPATH="${PARENT_DIR}/lib/*:${PARENT_DIR}/config"
+echo "CLASSPATH: $CLASSPATH"
 # 构建 nohup 命令
 NOHUP_COMMAND="nohup java \
   -Dspring.config.location=$CONFIG_PATH \
