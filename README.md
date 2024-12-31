@@ -25,6 +25,8 @@ jdk21
 14. surefire单元测试并行化
 15. assembly打包
 16. log4j2高性能配置
+17. 使用undertow-servlet容器进一步优化性能
+
 
 #jacoco-代码覆盖率
 #配置文件加密

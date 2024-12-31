@@ -29,13 +29,13 @@ public class ThreadConfig {
         return new TaskExecutorAdapter(executorService);
     }
 
-    @Bean
-    public TomcatProtocolHandlerCustomizer<?> protocolHandlerCustomizer() {
-        return protocolHandler -> protocolHandler.setExecutor(applicationTaskExecutor());
-    }
-
 //    @Bean
-//    public UndertowDeploymentInfoCustomizer undertowDeploymentInfoCustomizer() {
-//        return deploymentInfo -> deploymentInfo.setExecutor(applicationTaskExecutor());
+//    public TomcatProtocolHandlerCustomizer<?> protocolHandlerCustomizer() {
+//        return protocolHandler -> protocolHandler.setExecutor(applicationTaskExecutor());
 //    }
+
+    @Bean
+    public UndertowDeploymentInfoCustomizer undertowDeploymentInfoCustomizer() {
+        return deploymentInfo -> deploymentInfo.setExecutor(applicationTaskExecutor());
+    }
 }

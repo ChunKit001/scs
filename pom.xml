@@ -65,16 +65,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -202,6 +192,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.5.2</version>
                 </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -225,6 +216,7 @@
         </resources>
 
         <plugins>
+
             <!--            单元测试插件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -253,7 +245,7 @@
             <!--                    </execution>-->
             <!--                </executions>-->
             <!--            </plugin>-->
-
+            <!--代码混淆插件-->
 
             <plugin>
                 <!--            springboot打包-->
