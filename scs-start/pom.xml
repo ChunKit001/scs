@@ -51,8 +51,137 @@
 
     <build>
         <plugins>
+            <!--单元测试插件 配置参考 https://maven.apache.org/components/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <parallel>classes</parallel><!--类级别的并行-->
+                    <reuseForks>true</reuseForks><!--jvm重用-->
+                    <forkCount>1</forkCount><!--jvm只创建1个虚拟机-->
+                    <threadCount>2</threadCount><!--因为perCoreThreadCount默认为true 此时表示每个cpu创建多少个thread-->
+                </configuration>
+            </plugin>
+            <!--安全扫描插件 配置参考https://jeremylong.github.io/DependencyCheck/dependency-check-maven/configuration.html-->
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <configuration>
+                    <autoUpdate>true</autoUpdate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--springboot打包 配置参考 https://docs.spring.io/spring-boot/docs/3.1.3/maven-plugin/reference/htmlsingle/-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                    <mainClass>com.scs.start.Application</mainClass>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                        <!-- 明确排除其他模块的依赖 -->
+<!--                        <exclude>-->
+<!--                            <groupId>scs.web</groupId>-->
+<!--                            <artifactId>scs-adapter</artifactId>-->
+<!--                        </exclude>-->
+<!--                        <exclude>-->
+<!--                            <groupId>scs.web</groupId>-->
+<!--                            <artifactId>scs-client</artifactId>-->
+<!--                        </exclude>-->
+<!--                        <exclude>-->
+<!--                            <groupId>scs.web</groupId>-->
+<!--                            <artifactId>scs-domain</artifactId>-->
+<!--                        </exclude>-->
+<!--                        <exclude>-->
+<!--                            <groupId>scs.web</groupId>-->
+<!--                            <artifactId>scs-app</artifactId>-->
+<!--                        </exclude>-->
+<!--                        <exclude>-->
+<!--                            <groupId>scs.web</groupId>-->
+<!--                            <artifactId>scs-infra</artifactId>-->
+<!--                        </exclude>-->
+                    </excludes>
+                    <excludeGroupIds>scs.web</excludeGroupIds>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--混淆插件 配置参考 https://wvengen.github.io/proguard-maven-plugin/proguard-mojo.html-->
+<!--            <plugin>-->
+<!--                <groupId>com.github.wvengen</groupId>-->
+<!--                <artifactId>proguard-maven-plugin</artifactId>-->
+<!--                <version>2.6.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        &lt;!&ndash; 打包的时候开始混淆&ndash;&gt;-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>proguard</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <injar>${project.build.finalName}-exec.jar</injar>-->
+<!--                    <injarNotExistsSkip>true</injarNotExistsSkip>-->
+<!--                    <outjar>${project.build.finalName}-exec-proguard.jar</outjar>-->
+<!--                    <outputDirectory>${project.basedir}/target</outputDirectory>-->
+<!--                    <obfuscate>true</obfuscate>-->
+<!--                    <generateTemporaryConfigurationFile>true</generateTemporaryConfigurationFile>-->
+<!--                    <proguardInclude>proguard/proguard.cfg</proguardInclude>-->
 
+<!--                    <libs>-->
+<!--                        <lib>${java.home}</lib>-->
+<!--                    </libs>-->
+<!--                </configuration>-->
+
+
+<!--                <dependencies>-->
+<!--                    &lt;!&ndash; https://mvnrepository.com/artifact/com.guardsquare/proguard-base &ndash;&gt;-->
+<!--                    <dependency>-->
+<!--                        <groupId>com.guardsquare</groupId>-->
+<!--                        <artifactId>proguard-base</artifactId>-->
+<!--                        <version>7.6.1</version>-->
+<!--                        <scope>runtime</scope>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--            </plugin>-->
+
+            <!--打包插件 打包为tar.gz 并且包含lib conf bin 配置https://maven.apache.org/plugins/maven-assembly-plugin/examples/multimodule/module-binary-inclusion-simple.html-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
 </project>

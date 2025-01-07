@@ -30,7 +30,7 @@
         </fileSet>
         <!-- conf directory -->
         <fileSet>
-            <directory>${project.basedir}/scs-start/src/main/resources</directory>
+            <directory>${project.basedir}/src/main/resources</directory>
             <outputDirectory>/config</outputDirectory>
             <includes>
                 <include>**/*</include>
