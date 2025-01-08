@@ -6,26 +6,11 @@
         <format>tar.gz</format>
     </formats>
 
-    <dependencySets>
-        <!-- 打包所有依赖项到 lib 目录，排除 scs-start.jar -->
-        <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
-            <useProjectArtifact>false</useProjectArtifact>
-            <unpack>false</unpack>
-<!--            <excludes>-->
-<!--                <exclude>scs.web:scs-start:jar</exclude>-->
-<!--            </excludes>-->
-        </dependencySet>
-    </dependencySets>
-
     <fileSets>
         <!-- bin directory -->
         <fileSet>
             <directory>${project.basedir}/bin</directory>
             <outputDirectory>/bin</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
             <directoryMode>755</directoryMode>
         </fileSet>
         <!-- conf directory -->
@@ -38,12 +23,8 @@
         </fileSet>
 
         <fileSet>
-            <directory>${project.build.directory}</directory>
+            <directory>${project.build.directory}/lib</directory>
             <outputDirectory>/lib</outputDirectory>
-            <includes>
-                <include>scs-start-${project.version}-exec.jar</include>
-            </includes>
         </fileSet>
     </fileSets>
-
 </assembly>
