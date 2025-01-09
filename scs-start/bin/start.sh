@@ -16,16 +16,19 @@ if [ -z "$JAR_FILE" ]; then
   echo "No JAR file found in ${PARENT_DIR}/lib directory."
   exit 1
 else
-  echo "JAR_FILE: $JAR_FILE"
+  echo "JAR_FILE: "
+  echo "$JAR_FILE"
 fi
 
 # 检查是否提供了配置文件参数，如果没有则使用默认的配置文件路径
 if [ -z "$1" ]; then
   CONFIG_PATH="${PARENT_DIR}/config/application.yml"
-  echo "Using default config path: $CONFIG_PATH"
+  echo "Using default config path: "
+  echo "$CONFIG_PATH"
 else
   CONFIG_PATH="$1"
-  echo "Using provided config path: $CONFIG_PATH"
+  echo "Using provided config path: "
+  echo "$CONFIG_PATH"
 fi
 
 # 设置日志文件路径
@@ -35,16 +38,18 @@ LOG_PATH="${PARENT_DIR}/logs/${APP_NAME}.log"
 mkdir -p "${PARENT_DIR}/logs"
 
 CLASSPATH="${PARENT_DIR}/lib/*:${PARENT_DIR}/config"
-echo "CLASSPATH: $CLASSPATH"
+echo "CLASSPATH: "
+echo "$CLASSPATH"
 # 构建 nohup 命令
-NOHUP_COMMAND="nohup java \
+NOHUP_COMMAND="nohup java -jar \
   -Dspring.config.location=$CONFIG_PATH \
   -Dspring.profiles.active=dev \
-  -jar \"$JAR_FILE\" \
+  \"$JAR_FILE\" \
   > $LOG_PATH 2>&1 &"
 
 # 输出 nohup 命令
-echo "Executing command: $NOHUP_COMMAND"
+echo "Executing command: "
+echo "$NOHUP_COMMAND"
 
 # 启动应用程序
 eval $NOHUP_COMMAND

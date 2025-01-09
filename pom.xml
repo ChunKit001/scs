@@ -24,7 +24,7 @@
 
         <cola.components.version>5.0.0</cola.components.version>
 
-        <spring-boot.version>3.4.0</spring-boot.version>
+        <spring-boot.version>3.4.1</spring-boot.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <hutool.version>5.8.34</hutool.version>
         <dependency-check-maven.version>9.2.0</dependency-check-maven.version>
