@@ -1,4 +1,4 @@
-package com.scs.demo;
+package com.scs.app.demo;
 
 import com.scs.client.api.DemoServiceI;
 import com.scs.client.dto.ValidDTO;

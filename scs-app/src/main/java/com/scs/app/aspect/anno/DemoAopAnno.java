@@ -1,4 +1,4 @@
-package com.scs.aspect.anno;
+package com.scs.app.aspect.anno;
 
 public @interface DemoAopAnno {
 }

@@ -1,4 +1,4 @@
-package com.scs.customer.executor.query;
+package com.scs.app.customer.executor.query;
 
 import com.alibaba.cola.dto.MultiResponse;
 import com.scs.client.dto.CustomerListByNameQry;

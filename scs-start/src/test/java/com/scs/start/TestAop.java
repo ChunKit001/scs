@@ -1,7 +1,6 @@
 package com.scs.start;
 
-import com.scs.start.Application;
-import com.scs.demo.AspectService;
+import com.scs.app.demo.AspectService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;

@@ -50,6 +50,37 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <!-- 启用 -parameters 编译器标志 -->
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!--            springboot打包-->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                    <mainClass>com.scs.start.Application</mainClass>
+                    <!--                    <excludes>-->
+                    <!--                        <exclude>-->
+                    <!--                            <groupId>org.projectlombok</groupId>-->
+                    <!--                            <artifactId>lombok</artifactId>-->
+                    <!--                        </exclude>-->
+                    <!--                    </excludes>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--单元测试插件 配置参考 https://maven.apache.org/components/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html-->
             <!--            <plugin>-->
             <!--                <groupId>org.apache.maven.plugins</groupId>-->
@@ -78,61 +109,61 @@
             <!--                </executions>-->
             <!--            </plugin>-->
             <!--去除jar包中的配置文件-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>*.yml</exclude>
-                        <exclude>*.properties</exclude>
-                        <exclude>*.xml</exclude>
-                        <exclude>**/i18n/**</exclude>
-                    </excludes>
-                    <archive>
-                        <manifest>
-                            <!--这个属性特别关键，如果没有这个属性，有时候我们引用的包maven库 下面可能会有多个包，并且只有一个是正确的，
-                                        其余的可能是带时间戳的，此时会在classpath下面把那个带时间戳的给添加上去，然后我们 在依赖打包的时候，
-                                        打的是正确的，所以两头会对不上，报错。 -->
-                            <useUniqueVersions>false</useUniqueVersions>
-                            <!-- 为依赖包添加路径, 这些路径会写在MANIFEST文件的Class-Path下 -->
-                            <addClasspath>true</addClasspath>
-                            <!-- MANIFEST.MF 中 Class-Path 各个依赖加入前缀 -->
-                            <!--这个jar所依赖的jar包添加classPath的时候的前缀，需要 下面maven-dependency-plugin插件补充-->
-                            <!--一定要找对目录，否则jar找不到依赖lib，前边加../是因为jar在bin下，而bin与lib是平级目录-->
-                            <classpathPrefix>lib/</classpathPrefix>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-jar-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <excludes>-->
+            <!--                        <exclude>*.yml</exclude>-->
+            <!--                        <exclude>*.properties</exclude>-->
+            <!--                        <exclude>*.xml</exclude>-->
+            <!--                        <exclude>**/i18n/**</exclude>-->
+            <!--                    </excludes>-->
+            <!--                    <archive>-->
+            <!--                        <manifest>-->
+            <!--                            &lt;!&ndash;这个属性特别关键，如果没有这个属性，有时候我们引用的包maven库 下面可能会有多个包，并且只有一个是正确的，-->
+            <!--                                        其余的可能是带时间戳的，此时会在classpath下面把那个带时间戳的给添加上去，然后我们 在依赖打包的时候，-->
+            <!--                                        打的是正确的，所以两头会对不上，报错。 &ndash;&gt;-->
+            <!--                            <useUniqueVersions>false</useUniqueVersions>-->
+            <!--                            &lt;!&ndash; 为依赖包添加路径, 这些路径会写在MANIFEST文件的Class-Path下 &ndash;&gt;-->
+            <!--                            <addClasspath>true</addClasspath>-->
+            <!--                            &lt;!&ndash; MANIFEST.MF 中 Class-Path 各个依赖加入前缀 &ndash;&gt;-->
+            <!--                            &lt;!&ndash;这个jar所依赖的jar包添加classPath的时候的前缀，需要 下面maven-dependency-plugin插件补充&ndash;&gt;-->
+            <!--                            &lt;!&ndash;一定要找对目录，否则jar找不到依赖lib，前边加../是因为jar在bin下，而bin与lib是平级目录&ndash;&gt;-->
+            <!--                            <classpathPrefix>lib/</classpathPrefix>-->
 
-                            <!-- 指定启动类的包路径 -->
-                            <mainClass>com.scs.start.Application</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <!-- 复制依赖的jar包 -->
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <!-- 将依赖的jar包复制到该路径下 -->
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                            <excludeArtifactIds>lombok</excludeArtifactIds>
-                            <!-- 是否排除间接依赖，间接依赖也要拷贝 -->
-                            <excludeTransitive>false</excludeTransitive>
-                            <!-- 是否带上版本号 -->
-                            <stripVersion>false</stripVersion>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--                            &lt;!&ndash; 指定启动类的包路径 &ndash;&gt;-->
+            <!--                            <mainClass>com.scs.start.Application</mainClass>-->
+            <!--                        </manifest>-->
+            <!--                    </archive>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-dependency-plugin</artifactId>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>copy-dependencies</id>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            &lt;!&ndash; 复制依赖的jar包 &ndash;&gt;-->
+            <!--                            <goal>copy-dependencies</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            &lt;!&ndash; 将依赖的jar包复制到该路径下 &ndash;&gt;-->
+            <!--                            <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
+            <!--                            <overWriteReleases>false</overWriteReleases>-->
+            <!--                            <overWriteSnapshots>false</overWriteSnapshots>-->
+            <!--                            <overWriteIfNewer>true</overWriteIfNewer>-->
+            <!--                            <excludeArtifactIds>lombok</excludeArtifactIds>-->
+            <!--                            &lt;!&ndash; 是否排除间接依赖，间接依赖也要拷贝 &ndash;&gt;-->
+            <!--                            <excludeTransitive>false</excludeTransitive>-->
+            <!--                            &lt;!&ndash; 是否带上版本号 &ndash;&gt;-->
+            <!--                            <stripVersion>false</stripVersion>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <!--混淆插件 配置参考 https://wvengen.github.io/proguard-maven-plugin/proguard-mojo.html-->
             <!--            <plugin>-->
             <!--                <groupId>com.github.wvengen</groupId>-->
@@ -172,24 +203,24 @@
             <!--            </plugin>-->
 
             <!--打包插件 打包为tar.gz 并且包含lib conf bin 配置https://maven.apache.org/plugins/maven-assembly-plugin/examples/multimodule/module-binary-inclusion-simple.html-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly/assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-assembly-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <descriptors>-->
+            <!--                        <descriptor>assembly/assembly.xml</descriptor>-->
+            <!--                    </descriptors>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>make-assembly</id>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>single</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 </project>

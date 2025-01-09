@@ -1,10 +1,10 @@
-package com.scs.customer;
+package com.scs.app.customer;
 
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.scs.client.api.CustomerServiceI;
-import com.scs.customer.executor.CustomerAddCmdExe;
-import com.scs.customer.executor.query.CustomerListByNameQryExe;
+import com.scs.app.customer.executor.CustomerAddCmdExe;
+import com.scs.app.customer.executor.query.CustomerListByNameQryExe;
 import com.scs.client.dto.CustomerAddCmd;
 import com.scs.client.dto.CustomerListByNameQry;
 import com.scs.client.dto.data.CustomerDTO;

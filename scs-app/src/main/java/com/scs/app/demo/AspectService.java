@@ -1,6 +1,6 @@
-package com.scs.demo;
+package com.scs.app.demo;
 
-import com.scs.aspect.anno.DemoAopAnno;
+import com.scs.app.aspect.anno.DemoAopAnno;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

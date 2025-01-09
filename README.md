@@ -43,3 +43,5 @@ https://github.com/zhangkaitao/es.git
 
 com.scs.Application\
 
+# run
+java -jar -Dspring.profiles.active=dev scs-start-1.0.0-exec.jar

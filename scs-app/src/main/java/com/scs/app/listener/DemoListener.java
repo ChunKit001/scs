@@ -1,6 +1,6 @@
-package com.scs.listener;
+package com.scs.app.listener;
 
-import com.scs.listener.event.DemoEvent;
+import com.scs.app.listener.event.DemoEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

@@ -1,4 +1,4 @@
-package com.scs.order;
+package com.scs.app.order;
 
 //package by domain, not by duty
 

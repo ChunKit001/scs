@@ -1,4 +1,4 @@
-package com.scs.customer.executor;
+package com.scs.app.customer.executor;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.exception.BizException;

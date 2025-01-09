@@ -1,6 +1,6 @@
-package com.scs.demo;
+package com.scs.app.demo;
 
-import com.scs.listener.event.DemoEvent;
+import com.scs.app.listener.event.DemoEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
