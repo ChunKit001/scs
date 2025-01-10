@@ -125,13 +125,8 @@
                                         其余的可能是带时间戳的，此时会在classpath下面把那个带时间戳的给添加上去，然后我们 在依赖打包的时候，
                                         打的是正确的，所以两头会对不上，报错。 -->
                             <useUniqueVersions>false</useUniqueVersions>
-                            <!-- 为依赖包添加路径, 这些路径会写在MANIFEST文件的Class-Path下 -->
+                            <!-- 为依赖包添加路径, 这些路径会写在MANIFEST文件的Class-Path下 因为我们是零散包的结构 只需要这样设置 -->
                             <addClasspath>true</addClasspath>
-                            <!-- MANIFEST.MF 中 Class-Path 各个依赖加入前缀 -->
-                            <!--这个jar所依赖的jar包添加classPath的时候的前缀，需要 下面maven-dependency-plugin插件补充-->
-                            <!--一定要找对目录，否则jar找不到依赖lib，前边加../是因为jar在bin下，而bin与lib是平级目录-->
-<!--                            <classpathPrefix>lib/</classpathPrefix>-->
-
                             <!-- 指定启动类的包路径 -->
                             <mainClass>com.scs.start.Application</mainClass>
                         </manifest>
@@ -165,6 +160,7 @@
                 </executions>
             </plugin>
             <!--混淆插件 配置参考 https://wvengen.github.io/proguard-maven-plugin/proguard-mojo.html-->
+            <!--哪个模块需要加密就复制这段plugin配置与proguarg.cfg过去-->
             <!--            <plugin>-->
             <!--                <groupId>com.github.wvengen</groupId>-->
             <!--                <artifactId>proguard-maven-plugin</artifactId>-->
@@ -179,8 +175,8 @@
             <!--                </executions>-->
             <!--                <configuration>-->
             <!--                    <injar>${project.build.finalName}.jar</injar>-->
-            <!--                    <injarNotExistsSkip>true</injarNotExistsSkip>-->
             <!--                    <outjar>${project.build.finalName}.jar</outjar>-->
+            <!--                    <injarNotExistsSkip>true</injarNotExistsSkip>-->
             <!--                    <outputDirectory>${project.basedir}/target</outputDirectory>-->
             <!--                    <obfuscate>true</obfuscate>-->
             <!--                    <generateTemporaryConfigurationFile>true</generateTemporaryConfigurationFile>-->
@@ -192,7 +188,6 @@
             <!--                </configuration>-->
 
             <!--                <dependencies>-->
-            <!--                    &lt;!&ndash; https://mvnrepository.com/artifact/com.guardsquare/proguard-base &ndash;&gt;-->
             <!--                    <dependency>-->
             <!--                        <groupId>com.guardsquare</groupId>-->
             <!--                        <artifactId>proguard-base</artifactId>-->
@@ -200,27 +195,27 @@
             <!--                        <scope>runtime</scope>-->
             <!--                    </dependency>-->
             <!--                </dependencies>-->
-            <!--            </plugin>-->
+        </plugin>
 
-            <!--打包插件 打包为tar.gz 并且包含lib conf bin 配置https://maven.apache.org/plugins/maven-assembly-plugin/examples/multimodule/module-binary-inclusion-simple.html-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly/assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-</project>
+        <!--打包插件 打包为tar.gz 并且包含lib conf bin 配置https://maven.apache.org/plugins/maven-assembly-plugin/examples/multimodule/module-binary-inclusion-simple.html-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+                <descriptors>
+                    <descriptor>assembly/assembly.xml</descriptor>
+                </descriptors>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>make-assembly</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+        </project>
