@@ -26,21 +26,8 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -160,7 +147,7 @@
                 </executions>
             </plugin>
             <!--混淆插件 配置参考 https://wvengen.github.io/proguard-maven-plugin/proguard-mojo.html-->
-            <!--哪个模块需要加密就复制这段plugin配置与proguarg.cfg过去-->
+            <!--            哪个模块需要加密就复制这段plugin配置与proguarg.cfg过去-->
             <!--            <plugin>-->
             <!--                <groupId>com.github.wvengen</groupId>-->
             <!--                <artifactId>proguard-maven-plugin</artifactId>-->
@@ -195,27 +182,27 @@
             <!--                        <scope>runtime</scope>-->
             <!--                    </dependency>-->
             <!--                </dependencies>-->
-        </plugin>
+            <!--            </plugin>-->
 
-        <!--打包插件 打包为tar.gz 并且包含lib conf bin 配置https://maven.apache.org/plugins/maven-assembly-plugin/examples/multimodule/module-binary-inclusion-simple.html-->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-                <descriptors>
-                    <descriptor>assembly/assembly.xml</descriptor>
-                </descriptors>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>make-assembly</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>single</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-        </project>
+            <!--打包插件 打包为tar.gz 并且包含lib conf bin 配置https://maven.apache.org/plugins/maven-assembly-plugin/examples/multimodule/module-binary-inclusion-simple.html-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
