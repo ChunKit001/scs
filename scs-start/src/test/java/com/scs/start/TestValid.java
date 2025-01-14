@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -18,8 +17,9 @@ public class TestValid {
     private DemoServiceI demoServiceI;
 
     @Test
-    public void testValid(){
+    public void testValid() {
         ValidDTO validDTO = new ValidDTO();
         String s = demoServiceI.valid1(validDTO);
+        log.info("result:{}", s);
     }
 }
