@@ -41,6 +41,10 @@
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.mapstruct</groupId>-->
+<!--            <artifactId>mapstruct</artifactId>-->
+<!--        </dependency>-->
         <!-- JSR 303 Validation End-->
     </dependencies>
 </project>

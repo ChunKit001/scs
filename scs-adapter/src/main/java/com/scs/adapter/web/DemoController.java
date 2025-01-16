@@ -71,7 +71,7 @@ public class DemoController {
     }
 
     @PostMapping("valid")
-    public String valid(@RequestBody @Validated ValidDTO validDTO) {
+    public String valid(@RequestBody  ValidDTO validDTO) {
         return demoServiceI.valid1(validDTO);
     }
 }

@@ -27,7 +27,6 @@
         <spring-boot.version>3.4.1</spring-boot.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <hutool.version>5.8.34</hutool.version>
-        <dependency-check-maven.version>9.2.0</dependency-check-maven.version>
         <guava.version>33.2.1-jre</guava.version>
     </properties>
 
@@ -158,9 +157,9 @@
 <!--                <version>1.6.3</version>-->
 <!--            </dependency>-->
 <!--            <dependency>-->
-<!--                <groupId>org.mapstruct</groupId>-->
-<!--                <artifactId>mapstruct-processor</artifactId>-->
-<!--                <version>1.6.3</version>-->
+<!--                <groupId>org.projectlombok</groupId>-->
+<!--                <artifactId>lombok-mapstruct-binding</artifactId>-->
+<!--                <version>0.2.0</version>-->
 <!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
@@ -206,16 +205,29 @@
                     <version>3.7.1</version>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>9.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.wvengen</groupId>
                     <artifactId>proguard-maven-plugin</artifactId>
                     <version>2.6.1</version>
                 </plugin>
-
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>3.0.5</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -239,7 +251,53 @@
         </resources>
 
         <plugins>
-
+            <!--            <plugin>-->
+            <!--                &lt;!&ndash;插件&ndash;&gt;-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        &lt;!&ndash;执行ID唯一，必须&ndash;&gt;-->
+            <!--                        <id>validate</id>-->
+            <!--                        &lt;!&ndash;绑定编译的生命周期：验证&ndash;&gt;-->
+            <!--                        <phase>validate</phase>-->
+            <!--                        &lt;!&ndash;对执行配置&ndash;&gt;-->
+            <!--                        <configuration>-->
+            <!--                            <encoding>UTF-8</encoding>-->
+            <!--                            <consoleOutput>true</consoleOutput>-->
+            <!--                            <failsOnError>true</failsOnError>-->
+            <!--                        </configuration>-->
+            <!--                        &lt;!&ndash;在给阶段执行的命令&ndash;&gt;-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+            <!--安全扫描插件 配置参考https://jeremylong.github.io/DependencyCheck/dependency-check-maven/configuration.html-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.owasp</groupId>-->
+            <!--                <artifactId>dependency-check-maven</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <autoUpdate>true</autoUpdate>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <artifactId>maven-site-plugin</artifactId>-->
+            <!--                <version>4.0.0-M16</version>-->
+            <!--                <configuration>-->
+            <!--                    <locales>zh_CN</locales>-->
+            <!--                    <outputEncoding>UTF-8</outputEncoding>-->
+            <!--                    <inputEncoding>UTF-8</inputEncoding>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
 
         </plugins>
     </build>
@@ -268,4 +326,33 @@
             </properties>
         </profile>
     </profiles>
+
+    <developers>
+        <developer>
+            <url>https://github.com/chunkit001</url>
+            <roles>
+                <role>software engineer</role>
+            </roles>
+            <timezone>8</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/chunkit001/scs/issues</url>
+    </issueManagement>
+
+    <!-- 版本控制信息 -->
+    <scm>
+        <url>https://github.com/chunkit001/scs/</url>
+        <connection>scm:git:git://github.com/chunkit001/scs.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:chunkit001/scs.git</developerConnection>
+    </scm>
 </project>

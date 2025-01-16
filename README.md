@@ -24,8 +24,7 @@ jdk21
 13. validation参数校验 demo
 14. surefire单元测试并行化
 15. 自定义打包（bin、config、lib结构）
-
-[//]: # (16. mapstruct框架)
+16. mapstruct框架
 
 # todo
 #jacoco-代码覆盖率 \

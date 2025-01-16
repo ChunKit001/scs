@@ -7,7 +7,6 @@ import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 
 @Component
