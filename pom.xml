@@ -34,6 +34,7 @@
         <module>scs-client</module>
         <module>scs-adapter</module>
         <module>scs-app</module>
+        <module>scs-common</module>
         <module>scs-domain</module>
         <module>scs-infra</module>
         <module>scs-start</module>
