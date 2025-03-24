@@ -3,6 +3,8 @@ package com.scs.infra.customer;
 import com.scs.domain.customer.Customer;
 import com.scs.domain.customer.gateway.CustomerGateway;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +15,8 @@ public class CustomerGatewayImpl implements CustomerGateway {
     public Customer getByById(String customerId) {
         CustomerDO customerDO = customerMapper.getById(customerId);
         //Convert to Customer
-        return null;
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDO, customer);
+        return customer;
     }
 }

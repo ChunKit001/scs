@@ -1,6 +1,5 @@
 package com.scs.start;
 
-import com.scs.start.Application;
 import com.scs.app.demo.ListenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;

@@ -11,6 +11,7 @@ public class AsyncService {
     public void scsAsyncHandler() {
         log.info("scsAsyncHandler");
         int a = 1 / 0;
+        log.info("a {}",a);
     }
 
     public void scsAsyncHandlerException() {

@@ -3,7 +3,7 @@ package com.scs.start.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
-import org.springframework.boot.web.embedded.undertow.UndertowDeploymentInfoCustomizer;
+// import org.springframework.boot.web.embedded.undertow.UndertowDeploymentInfoCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;

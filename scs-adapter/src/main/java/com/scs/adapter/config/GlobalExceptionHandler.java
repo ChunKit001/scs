@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Response httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         try {
-            String method = ex.getMethod();
+            // String method = ex.getMethod();
             ProblemDetail body = ex.getBody();
             String title = body.getTitle();
 
