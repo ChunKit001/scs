@@ -34,8 +34,8 @@ public class PrintConfig implements CommandLineRunner {
         }
         String s = resource.getPath();
 
-        log.debug("classpath:{}", s);
-        log.debug("start to print environment variables");
+        log.info("classpath:{}", s);
+        log.info("start to print environment variables");
         MutablePropertySources propSrcs = springEnv.getPropertySources();
         // 获取所有配置 key -> [source, key, value]
         Map<String, String[]> props = propSrcs.stream()
@@ -81,7 +81,7 @@ public class PrintConfig implements CommandLineRunner {
                 })
                 .reduce((s1, s2) -> s1 + "\n" + s2)
                 .orElse("");
-        log.debug("\n" + propStr);
-        log.debug("environment variables printed");
+        log.info("\n" + propStr);
+        log.info("environment variables printed");
     }
 }
