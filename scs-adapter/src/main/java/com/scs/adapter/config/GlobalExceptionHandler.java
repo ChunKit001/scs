@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
     @Qualifier("messageSource")
     private MessageSource messageSource;
 
+    //保底异常
     @ExceptionHandler(Exception.class)
     public Response baseHandler(HttpServletRequest request, Exception e) {
         log.error("GlobalExceptionHandler get a error [uri={},query={}]",
@@ -32,23 +33,20 @@ public class GlobalExceptionHandler {
         return Response.buildFailure("000000", "internal exception");
     }
 
-
+    //业务异常
     @ExceptionHandler(ProjectException.class)
     public Response bizHandler(HttpServletRequest request, ProjectException e) {
 
         String errCode = e.getErrCode();
-        if (errCode == null) {
+        if (errCode == null || errCode.isEmpty()) {
             errCode = "000000";
         }
 
-        if (errCode.isEmpty()) {
-            errCode = "000000";
-        }
         String[] errMessage = e.getErrMessage();
 
-        String message1 = messageSource.getMessage(errCode, errMessage, "", request.getLocale());
+        String message = messageSource.getMessage(errCode, errMessage, "", request.getLocale());
 
-        return Response.buildFailure(errCode, message1);
+        return Response.buildFailure(errCode, message);
     }
 
 
