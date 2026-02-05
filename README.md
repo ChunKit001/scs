@@ -25,8 +25,6 @@ jdk21
 14. surefire单元测试并行化
 15. 自定义打包（bin、config、lib结构）
 
-[//]: # (16. mapstruct框架)
-
 # todo
 jacoco-代码覆盖率 
 配置文件加密 
