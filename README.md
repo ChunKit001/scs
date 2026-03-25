@@ -28,16 +28,27 @@ jdk21
 [//]: # (16. mapstruct框架)
 
 # todo
-#jacoco-代码覆盖率 \
-#配置文件加密 \
-#代码混淆 \
-#自定义打包（graalvm） \
-#自定义打包（docker镜像）
+jacoco-代码覆盖率 
+配置文件加密 
+代码混淆 
+自定义打包（graalvm） 
+自定义打包（docker镜像）
 
 # 参考:
 
-https://github.com/alibaba/COLA
-https://github.com/zhangkaitao/es.git
+https://github.com/alibaba/COLA 
+https://github.com/zhangkaitao/es.git 
 
 # 主类
 com.scs.Application
+
+# 一些命令
+## 打包
+./mvnw clean package -DskipTests
+
+## checkstyle
+./mvnw checkstyle:checkstyle
+报告 scs\scs-start\target\reports\checkstyle.html
+
+## dependency-check
+./mvnw org.owasp:dependency-check-maven:check

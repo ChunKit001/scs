@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>scs.web</groupId>
@@ -73,7 +74,8 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-            <!--Project modules-->
+            <!--Project
+            modules-->
             <dependency>
                 <groupId>scs.web</groupId>
                 <artifactId>scs-adapter</artifactId>
@@ -99,7 +101,8 @@
                 <artifactId>scs-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--Project modules End-->
+            <!--Project
+            modules End-->
 
             <dependency>
                 <groupId>com.alibaba.cola</groupId>
@@ -126,7 +129,8 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-            <!--Validation API-->
+            <!--Validation
+            API-->
             <!--
                 - javax.validation:javax.validation
                 - org.hibernate.validator:hibernate-validator
@@ -138,7 +142,8 @@
                 <artifactId>javax.el-api</artifactId>
                 <version>3.0.0</version>
             </dependency>
-            <!--Validation API End -->
+            <!--Validation
+            API End -->
 
             <!-- Misc -->
             <!-- Misc End -->
@@ -152,16 +157,16 @@
                 <artifactId>jakarta.el</artifactId>
                 <version>4.0.2</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.mapstruct</groupId>-->
-<!--                <artifactId>mapstruct</artifactId>-->
-<!--                <version>1.6.3</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.projectlombok</groupId>-->
-<!--                <artifactId>lombok-mapstruct-binding</artifactId>-->
-<!--                <version>0.2.0</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.mapstruct</groupId>-->
+            <!--                <artifactId>mapstruct</artifactId>-->
+            <!--                <version>1.6.3</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.projectlombok</groupId>-->
+            <!--                <artifactId>lombok-mapstruct-binding</artifactId>-->
+            <!--                <version>0.2.0</version>-->
+            <!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -252,44 +257,35 @@
         </resources>
 
         <plugins>
-            <!--            <plugin>-->
-            <!--                &lt;!&ndash;插件&ndash;&gt;-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        &lt;!&ndash;执行ID唯一，必须&ndash;&gt;-->
-            <!--                        <id>validate</id>-->
-            <!--                        &lt;!&ndash;绑定编译的生命周期：验证&ndash;&gt;-->
-            <!--                        <phase>validate</phase>-->
-            <!--                        &lt;!&ndash;对执行配置&ndash;&gt;-->
-            <!--                        <configuration>-->
-            <!--                            <encoding>UTF-8</encoding>-->
-            <!--                            <consoleOutput>true</consoleOutput>-->
-            <!--                            <failsOnError>true</failsOnError>-->
-            <!--                        </configuration>-->
-            <!--                        &lt;!&ndash;在给阶段执行的命令&ndash;&gt;-->
-            <!--                        <goals>-->
-            <!--                            <goal>check</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
-            <!--安全扫描插件 配置参考https://jeremylong.github.io/DependencyCheck/dependency-check-maven/configuration.html-->
-            <!--            <plugin>-->
-            <!--                <groupId>org.owasp</groupId>-->
-            <!--                <artifactId>dependency-check-maven</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <autoUpdate>true</autoUpdate>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <goals>-->
-            <!--                            <goal>check</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <configuration>
+                    <autoUpdate>true</autoUpdate>
+                    <nvdApiKey>08bf5840-2099-4c7e-9962-bfe7570f8d49</nvdApiKey>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
             <!--            <plugin>-->
             <!--                <artifactId>maven-site-plugin</artifactId>-->
             <!--                <version>4.0.0-M16</version>-->
