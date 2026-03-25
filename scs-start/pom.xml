@@ -100,32 +100,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <!-- 复制依赖的jar包 -->
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <!-- 将依赖的jar包复制到该路径下 -->
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                            <excludeArtifactIds>lombok</excludeArtifactIds>
-                            <!-- 是否排除间接依赖，间接依赖也要拷贝 -->
-                            <excludeTransitive>false</excludeTransitive>
-                            <!-- 是否带上版本号 -->
-                            <stripVersion>false</stripVersion>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
             <!--混淆插件 配置参考 https://wvengen.github.io/proguard-maven-plugin/proguard-mojo.html-->
             <!--            哪个模块需要加密就复制这段plugin配置与proguarg.cfg过去-->
             <!--            <plugin>-->

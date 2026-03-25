@@ -23,11 +23,6 @@
         </fileSet>
 
         <fileSet>
-            <directory>${project.build.directory}/lib</directory>
-            <outputDirectory>/lib</outputDirectory>
-        </fileSet>
-
-        <fileSet>
             <directory>${project.build.directory}</directory>
             <outputDirectory>/lib</outputDirectory>
             <includes>
@@ -35,4 +30,15 @@
             </includes>
         </fileSet>
     </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <scope>runtime</scope>
+            <excludes>
+                <exclude>org.projectlombok:lombok</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
 </assembly>
