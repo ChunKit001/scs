@@ -44,11 +44,11 @@ com.scs.Application
 
 # 一些命令
 ## 打包
-./mvnw clean package -DskipTests
+./mvnw clean package -DskipTests -T 4
 
 ## checkstyle
 ./mvnw checkstyle:checkstyle
 报告 scs\scs-start\target\reports\checkstyle.html
 
 ## dependency-check
-./mvnw org.owasp:dependency-check-maven:check
+#./mvnw org.owasp:dependency-check-maven:check

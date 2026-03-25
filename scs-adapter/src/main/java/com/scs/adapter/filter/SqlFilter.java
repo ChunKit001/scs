@@ -1,6 +1,5 @@
 package com.scs.adapter.filter;
 
-import cn.hutool.Hutool;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import org.springframework.context.annotation.Configuration;

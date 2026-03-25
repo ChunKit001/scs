@@ -8,5 +8,5 @@ corn:
   ping: "0 0/1 * * * *"
 
 server:
-  port: 8080
+  port: 58080
   shutdown: graceful
