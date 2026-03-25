@@ -35,4 +35,52 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
     </dependencies>
+
+    
+    <profiles>
+        <!-- 混淆 profile，通过 -P proguard 激活 -->
+        <profile>
+            <id>proguard</id>
+            <build>
+                <plugins>
+                    <!--混淆插件-->
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <!-- 打包后开始混淆 -->
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>proguard</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <injar>${project.build.finalName}.jar</injar>
+                            <outjar>${project.build.finalName}.jar</outjar>
+                            <injarNotExistsSkip>false</injarNotExistsSkip>
+                            <outputDirectory>${project.basedir}/target</outputDirectory>
+                            <obfuscate>true</obfuscate>
+                            <generateTemporaryConfigurationFile>true</generateTemporaryConfigurationFile>
+                            <proguardInclude>../proguard.cfg</proguardInclude>
+
+                            <libs>
+                                <lib>${java.home}</lib>
+                            </libs>
+                        </configuration>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.guardsquare</groupId>
+                                <artifactId>proguard-base</artifactId>
+                                <version>7.6.1</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
