@@ -46,6 +46,9 @@ com.scs.Application
 ## 打包
 ./mvnw clean package -DskipTests -T 4
 
+## 混淆打包
+./mvnw clean package -DskipTests -T 4 -P proguard
+
 ## checkstyle
 ./mvnw checkstyle:checkstyle
 报告 scs\scs-start\target\reports\checkstyle.html
