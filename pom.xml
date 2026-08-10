@@ -26,9 +26,26 @@
         <cola.components.version>5.0.0</cola.components.version>
 
         <spring-boot.version>3.4.1</spring-boot.version>
-        <mybatis-starter.version>3.0.3</mybatis-starter.version>
+        <mybatis-plus.version>3.5.14</mybatis-plus.version>
         <hutool.version>5.8.34</hutool.version>
-        <guava.version>33.2.1-jre</guava.version>
+        <springdoc.version>2.8.5</springdoc.version>
+        <flyway.version>10.20.1</flyway.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+
+        <jacoco.version>0.8.12</jacoco.version>
+        <!-- 行覆盖率门禁：脚手架起步 10%；业务项目请调高，如 0.60 -->
+        <jacoco.line.coverage.minimum>0.10</jacoco.line.coverage.minimum>
+        <!-- 无测试模块可设 jacoco.skip=true；仅跳过门禁：jacoco.check.skip=true -->
+        <jacoco.skip>false</jacoco.skip>
+        <jacoco.check.skip>${jacoco.skip}</jacoco.check.skip>
+
+        <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+        <spotbugs-maven-plugin.version>4.10.3.0</spotbugs-maven-plugin.version>
+        <findsecbugs.version>1.14.0</findsecbugs.version>
+        <proguard-base.version>7.6.1</proguard-base.version>
+        <!-- 对外 API 模块可设 proguard.skip=true -->
+        <proguard.skip>false</proguard.skip>
     </properties>
 
     <modules>
@@ -59,20 +76,10 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
             <!--Project
             modules-->
             <dependency>
@@ -118,54 +125,50 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-starter.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-mysql</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
 
-            <!--Validation
-            API-->
-            <!--
-                - javax.validation:javax.validation
-                - org.hibernate.validator:hibernate-validator
-                - org.glassfish:jakarta.el
-                are declared in spring-boot-dependencies
-            -->
+            <!-- Validation / EL：Boot 3 用 jakarta.*，版本由 spring-boot-dependencies 管理 -->
+            <!-- mysql-connector-j 版本由 spring-boot-dependencies 管理 -->
             <dependency>
-                <groupId>javax.el</groupId>
-                <artifactId>javax.el-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
-            <!--Validation
-            API End -->
-
-            <!-- Misc -->
-            <!-- Misc End -->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.33</version>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.el</artifactId>
-                <version>4.0.2</version>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
-            <!--            <dependency>-->
-            <!--                <groupId>org.mapstruct</groupId>-->
-            <!--                <artifactId>mapstruct</artifactId>-->
-            <!--                <version>1.6.3</version>-->
-            <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.projectlombok</groupId>-->
-            <!--                <artifactId>lombok-mapstruct-binding</artifactId>-->
-            <!--                <version>0.2.0</version>-->
-            <!--            </dependency>-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+                <version>${lombok-mapstruct-binding.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -196,6 +199,62 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.5.2</version>
+                    <configuration>
+                        <!-- Surefire 3.x 用 @{argLine} 延迟替换，才能吃到 Jacoco prepare-agent -->
+                        <argLine>@{argLine}</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                    <configuration>
+                        <skip>${jacoco.skip}</skip>
+                        <excludes>
+                            <exclude>**/Application.class</exclude>
+                            <exclude>**/dto/**</exclude>
+                            <exclude>**/*DTO.class</exclude>
+                            <exclude>**/*DO.class</exclude>
+                            <exclude>**/config/**</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>check</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <skip>${jacoco.check.skip}</skip>
+                                <rules>
+                                    <rule>
+                                        <element>BUNDLE</element>
+                                        <limits>
+                                            <limit>
+                                                <counter>LINE</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.line.coverage.minimum}</minimum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -217,6 +276,10 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <configuration>
+                        <!-- 多模块默认跳过；仅 scs-start 覆盖 skip=false -->
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.owasp</groupId>
@@ -224,14 +287,19 @@
                     <version>9.2.0</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>com.github.wvengen</groupId>
                     <artifactId>proguard-maven-plugin</artifactId>
                     <version>2.6.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>3.0.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -250,7 +318,9 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>application.yml</include>
-                    <include>application-${profile.active}.yml</include>
+                    <include>application-dev.yml</include>
+                    <include>application-test.yml</include>
+                    <include>application-prod.yml</include>
                 </includes>
             </resource>
         </resources>
@@ -258,43 +328,48 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
+                <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>validate</id>
+                        <id>enforce-rules</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
                         <configuration>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[21,22)</version>
+                                    <message>SCS requires JDK 21</message>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[3.9.0,)</version>
+                                    <message>SCS requires Maven 3.9+</message>
+                                </requireMavenVersion>
+                                <banDuplicatePomDependencyVersions/>
+                                <!-- 不用 requireUpperBoundDeps：与 spring-boot-dependencies 钉版本策略冲突 -->
+                                <bannedDependencies>
+                                    <searchTransitive>true</searchTransitive>
+                                    <excludes>
+                                        <!-- 已迁至 com.mysql:mysql-connector-j -->
+                                        <exclude>mysql:mysql-connector-java</exclude>
+                                        <!-- Boot 3 / Jakarta：禁止 javax.el -->
+                                        <exclude>javax.el:javax.el-api</exclude>
+                                        <!-- 不禁 junit:junit：Testcontainers 编译期仍引用 JUnit4 TestRule；测试请用 JUnit 5 -->
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <configuration>
-                    <autoUpdate>true</autoUpdate>
-                    <nvdApiKey>08bf5840-2099-4c7e-9962-bfe7570f8d49</nvdApiKey>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin> -->
-            <!--            <plugin>-->
-            <!--                <artifactId>maven-site-plugin</artifactId>-->
-            <!--                <version>4.0.0-M16</version>-->
-            <!--                <configuration>-->
-            <!--                    <locales>zh_CN</locales>-->
-            <!--                    <outputEncoding>UTF-8</outputEncoding>-->
-            <!--                    <inputEncoding>UTF-8</inputEncoding>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -320,6 +395,137 @@
             <properties>
                 <profile.active>test</profile.active>
             </properties>
+        </profile>
+        <!-- ========== 可选质量/构建工具（统一放根 POM，子模块勿再声明） ========== -->
+        <!-- 代码规范：./mvnw validate -P checkstyle -->
+        <profile>
+            <id>checkstyle</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <configuration>
+                            <configLocation>google_checks.xml</configLocation>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <violationSeverity>warning</violationSeverity>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>checkstyle-check</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- 依赖漏洞扫描：./mvnw verify -P owasp（较慢，需网络；可用 -DnvdApiKey=xxx） -->
+        <profile>
+            <id>owasp</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <configuration>
+                            <autoUpdate>true</autoUpdate>
+                            <failBuildOnCVSS>8</failBuildOnCVSS>
+                            <nvdApiKey>${nvdApiKey}</nvdApiKey>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>dependency-check</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- 静态分析：./mvnw verify -P spotbugs（含 FindSecBugs） -->
+        <profile>
+            <id>spotbugs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <configuration>
+                            <effort>Default</effort>
+                            <threshold>High</threshold>
+                            <failOnError>true</failOnError>
+                            <xmlOutput>true</xmlOutput>
+                            <excludeFilterFile>${maven.multiModuleProjectDirectory}/spotbugs-exclude.xml</excludeFilterFile>
+                            <plugins>
+                                <plugin>
+                                    <groupId>com.h3xstream.findsecbugs</groupId>
+                                    <artifactId>findsecbugs-plugin</artifactId>
+                                    <version>${findsecbugs.version}</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>spotbugs-check</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- 混淆：./mvnw package -P proguard；规则见仓库根 proguard.cfg -->
+        <profile>
+            <id>proguard</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>proguard</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>proguard</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skip>${proguard.skip}</skip>
+                            <injar>${project.build.finalName}.jar</injar>
+                            <outjar>${project.build.finalName}.jar</outjar>
+                            <injarNotExistsSkip>true</injarNotExistsSkip>
+                            <outputDirectory>${project.basedir}/target</outputDirectory>
+                            <obfuscate>true</obfuscate>
+                            <generateTemporaryConfigurationFile>true</generateTemporaryConfigurationFile>
+                            <proguardInclude>${maven.multiModuleProjectDirectory}/proguard.cfg</proguardInclude>
+                            <libs>
+                                <lib>${java.home}</lib>
+                            </libs>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.guardsquare</groupId>
+                                <artifactId>proguard-base</artifactId>
+                                <version>${proguard-base.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 

@@ -4,17 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
 @Component
 public class AsyncService {
-    @Async
-    public void scsAsyncHandler() {
-        log.info("scsAsyncHandler");
-        int a = 1 / 0;
-        log.info("a {}",a);
-    }
 
-    public void scsAsyncHandlerException() {
-        log.info("scsAsyncHandlerException");
+    @Async
+    public CompletableFuture<String> scsAsyncHandler() {
+        Thread t = Thread.currentThread();
+        log.info("scsAsyncHandler name={} virtual={}", t.getName(), t.isVirtual());
+        return CompletableFuture.completedFuture(
+                t.getName() + "|virtual=" + t.isVirtual());
     }
 }

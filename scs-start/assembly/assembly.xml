@@ -11,9 +11,10 @@
         <fileSet>
             <directory>${project.basedir}/bin</directory>
             <outputDirectory>/bin</outputDirectory>
-            <directoryMode>755</directoryMode>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
         </fileSet>
-        <!-- conf directory -->
+        <!-- config：外置 yml / i18n / logback（与 start.sh -cp 配套） -->
         <fileSet>
             <directory>${project.basedir}/src/main/resources</directory>
             <outputDirectory>/config</outputDirectory>

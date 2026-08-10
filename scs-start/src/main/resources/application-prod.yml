@@ -1,13 +1,44 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: root
-    url: jdbc:mysql://localhost:3306/test
-    username: root
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/test}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3s
+  main:
+    lazy-initialization: false
+
+scs:
+  db:
+    enabled: ${SCS_DB_ENABLED:false}
+  redis:
+    enabled: ${SCS_REDIS_ENABLED:false}
 
 print:
   config: false
 
+# 生产关闭 Actuator（含 health/metrics 等全部端点）
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: ""
+
 logging:
   level:
     root: INFO
+    org.springframework.data.redis: WARN
+    com.scs.adapter.redis: INFO
+
+# 生产关闭 API 文档
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

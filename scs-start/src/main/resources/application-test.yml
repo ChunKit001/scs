@@ -1,13 +1,50 @@
+# 部署「测试环境」profile（非单元测试）
+# 启动：--spring.profiles.active=test  或  SPRING_PROFILES_ACTIVE=test
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: root
-    url: jdbc:mysql://localhost:3306/test
-    username: root
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/scs_test}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3s
+  main:
+    lazy-initialization: false
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+
+scs:
+  db:
+    enabled: ${SCS_DB_ENABLED:false}
+  redis:
+    enabled: ${SCS_REDIS_ENABLED:false}
 
 print:
   config: false
 
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
 logging:
   level:
     root: INFO
+    com.scs: INFO
+    org.springframework.data.redis: INFO
+    com.scs.adapter.redis: INFO
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

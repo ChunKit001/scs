@@ -13,6 +13,11 @@
     <packaging>jar</packaging>
     <name>scs-domain</name>
 
+    <properties>
+        <!-- 领域样板暂无单测，仅出报告；业务项目补测后去掉 -->
+        <jacoco.check.skip>true</jacoco.check.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>scs.web</groupId>
@@ -29,5 +34,11 @@
             <artifactId>cola-component-exception</artifactId>
         </dependency>
         <!-- COLA components End-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

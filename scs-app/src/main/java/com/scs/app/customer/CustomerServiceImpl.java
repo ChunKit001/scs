@@ -10,10 +10,12 @@ import com.scs.client.dto.CustomerListByNameQry;
 import com.scs.client.dto.data.CustomerDTO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix = "scs.db", name = "enabled", havingValue = "true")
 //@CatchAndLog
 public class CustomerServiceImpl implements CustomerServiceI {
 

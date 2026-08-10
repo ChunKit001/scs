@@ -4,16 +4,16 @@ import com.scs.app.util.PojoConvertUtil;
 import com.scs.client.api.MapperStructServiceI;
 import com.scs.client.dto.MapStructReq;
 import com.scs.client.dto.MapStructResp;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class MapperStructService implements MapperStructServiceI {
 
-    @Autowired
-    private PojoConvertUtil pojoConvertUtil;
+    private final PojoConvertUtil pojoConvertUtil;
 
     @Override
     public MapStructResp test(MapStructReq req) {

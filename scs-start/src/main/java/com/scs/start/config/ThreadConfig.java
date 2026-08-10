@@ -1,6 +1,7 @@
 package com.scs.start.config;
 
 
+import com.scs.adapter.trace.MdcTaskDecorator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 // import org.springframework.boot.web.embedded.undertow.UndertowDeploymentInfoCustomizer;
@@ -26,6 +27,7 @@ public class ThreadConfig {
                 .factory();
         ExecutorService executorService = Executors.newThreadPerTaskExecutor(factory);
         TaskExecutorAdapter taskExecutorAdapter = new TaskExecutorAdapter(executorService);
+        taskExecutorAdapter.setTaskDecorator(new MdcTaskDecorator());
         return taskExecutorAdapter;
     }
 

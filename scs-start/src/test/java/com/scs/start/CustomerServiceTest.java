@@ -1,63 +1,75 @@
 package com.scs.start;
 
+import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.scs.client.api.CustomerServiceI;
 import com.scs.client.dto.CustomerAddCmd;
+import com.scs.client.dto.CustomerListByNameQry;
 import com.scs.client.dto.data.CustomerDTO;
 import com.scs.client.dto.data.ErrorCode;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * This is for integration test.
- * <p>
- * Created by fulan.zjf on 2017/11/29.
- */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class CustomerServiceTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+class CustomerServiceTest extends AbstractMysqlIT {
 
     @Autowired
     private CustomerServiceI customerService;
 
+    @Test
+    void addThenListByCompanyName() {
+        String company = "Acme-" + System.nanoTime();
 
-    @Before
-    public void setUp() {
+        CustomerAddCmd cmd = new CustomerAddCmd();
+        CustomerDTO dto = new CustomerDTO();
+        dto.setCompanyName(company);
+        dto.setSource("TEST");
+        cmd.setCustomerDTO(dto);
 
+        Response add = customerService.addCustomer(cmd);
+        assertThat(add.isSuccess()).isTrue();
+
+        CustomerListByNameQry qry = new CustomerListByNameQry();
+        qry.setName(company);
+        MultiResponse<CustomerDTO> listed = customerService.listByName(qry);
+        assertThat(listed.isSuccess()).isTrue();
+        assertThat(listed.getData()).hasSize(1);
+        assertThat(listed.getData().get(0).getCompanyName()).isEqualTo(company);
+        assertThat(listed.getData().get(0).getCustomerId()).isNotBlank();
     }
 
     @Test
-    public void testCustomerAddSuccess() {
-        //1.prepare
-        CustomerAddCmd customerAddCmd = new CustomerAddCmd();
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setCompanyName("NormalName");
-        customerAddCmd.setCustomerDTO(customerDTO);
+    void addCustomerCompanyNameConflict() {
+        CustomerAddCmd cmd = new CustomerAddCmd();
+        CustomerDTO dto = new CustomerDTO();
+        dto.setCompanyName("ConflictCompanyName");
+        dto.setSource("TEST");
+        cmd.setCustomerDTO(dto);
 
-        //2.execute
-        Response response = customerService.addCustomer(customerAddCmd);
-
-        //3.assert
-        Assert.assertTrue(response.isSuccess());
+        Response response = customerService.addCustomer(cmd);
+        assertThat(response.isSuccess()).isFalse();
+        assertThat(response.getErrCode()).isEqualTo(ErrorCode.B_CUSTOMER_companyNameConflict.getErrCode());
     }
 
     @Test
-    public void testCustomerAddCompanyNameConflict() {
-        //1.prepare
-        CustomerAddCmd customerAddCmd = new CustomerAddCmd();
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setCompanyName("ConflictCompanyName");
-        customerAddCmd.setCustomerDTO(customerDTO);
+    void duplicateCompanyNameRejected() {
+        String company = "Dup-" + System.nanoTime();
 
-        //2.execute
-        Response response = customerService.addCustomer(customerAddCmd);
+        CustomerAddCmd first = new CustomerAddCmd();
+        CustomerDTO dto1 = new CustomerDTO();
+        dto1.setCompanyName(company);
+        dto1.setSource("TEST");
+        first.setCustomerDTO(dto1);
+        assertThat(customerService.addCustomer(first).isSuccess()).isTrue();
 
-        //3.assert error
-        Assert.assertEquals(ErrorCode.B_CUSTOMER_companyNameConflict.getErrCode(), response.getErrCode());
+        CustomerAddCmd second = new CustomerAddCmd();
+        CustomerDTO dto2 = new CustomerDTO();
+        dto2.setCompanyName(company);
+        dto2.setSource("TEST");
+        second.setCustomerDTO(dto2);
+        Response response = customerService.addCustomer(second);
+        assertThat(response.isSuccess()).isFalse();
+        assertThat(response.getErrCode()).isEqualTo(ErrorCode.B_CUSTOMER_companyNameConflict.getErrCode());
     }
 }

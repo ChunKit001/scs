@@ -1,58 +1,68 @@
 #!/bin/bash
+set -euo pipefail
 
-# 设置应用程序名称
+# Thin layout: APP_HOME/{bin,config,lib,logs}
+# config is on the classpath so i18n/ and logback-spring.xml resolve;
+# application*.yml are also loaded from config via spring.config.additional-location.
+
 APP_NAME="scs-start"
-
-# 获取脚本所在目录的绝对路径
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+APP_HOME="$(cd "${SCRIPT_DIR}/.." && pwd)"
+LIB_DIR="${APP_HOME}/lib"
+CONFIG_DIR="${APP_HOME}/config"
+LOG_DIR="${APP_HOME}/logs"
+PID_FILE="${LOG_DIR}/${APP_NAME}.pid"
+OUT_FILE="${LOG_DIR}/${APP_NAME}.out"
 
+mkdir -p "${LOG_DIR}"
 
-# 查找 lib 目录下的最新 JAR 文件
-JAR_FILE=$(find "${PARENT_DIR}/lib" -name "${APP_NAME}-*.jar" | sort -r | head -n 1)
-
-# 检查是否找到了 JAR 文件
-if [ -z "$JAR_FILE" ]; then
-  echo "No JAR file found in ${PARENT_DIR}/lib directory."
+if [[ ! -d "${LIB_DIR}" ]]; then
+  echo "lib directory not found: ${LIB_DIR}" >&2
   exit 1
-else
-  echo "JAR_FILE: "
-  echo "$JAR_FILE"
+fi
+if [[ ! -d "${CONFIG_DIR}" ]]; then
+  echo "config directory not found: ${CONFIG_DIR}" >&2
+  exit 1
 fi
 
-# 检查是否提供了配置文件参数，如果没有则使用默认的配置文件路径
-if [ -z "$1" ]; then
-  CONFIG_PATH="${PARENT_DIR}/config/application.yml"
-  echo "Using default config path: "
-  echo "$CONFIG_PATH"
-else
-  CONFIG_PATH="$1"
-  echo "Using provided config path: "
-  echo "$CONFIG_PATH"
+# Prefer plain module jar; ignore sources/javadoc if present
+MAIN_JAR="$(ls -1 "${LIB_DIR}/${APP_NAME}"-*.jar 2>/dev/null | grep -Ev 'sources|javadoc' | sort -r | head -n 1 || true)"
+if [[ -z "${MAIN_JAR}" ]]; then
+  echo "No ${APP_NAME}-*.jar found in ${LIB_DIR}" >&2
+  exit 1
 fi
 
-# 设置日志文件路径
-LOG_PATH="${PARENT_DIR}/logs/${APP_NAME}.log"
+if [[ -f "${PID_FILE}" ]]; then
+  OLD_PID="$(cat "${PID_FILE}")"
+  if kill -0 "${OLD_PID}" 2>/dev/null; then
+    echo "${APP_NAME} already running with PID ${OLD_PID}" >&2
+    exit 1
+  fi
+  rm -f "${PID_FILE}"
+fi
 
-# 创建日志目录（如果不存在）
-mkdir -p "${PARENT_DIR}/logs"
+# Profile: SPRING_PROFILES_ACTIVE > first CLI arg > default dev
+# Optional second arg kept for backward compat as extra spring.config location (unused if empty)
+PROFILE="${SPRING_PROFILES_ACTIVE:-${1:-dev}}"
 
-CLASSPATH="${PARENT_DIR}/lib/*:${PARENT_DIR}/config"
-echo "CLASSPATH: "
-echo "$CLASSPATH"
-# 构建 nohup 命令
-NOHUP_COMMAND="nohup java -jar \
-  -Dspring.config.location=$CONFIG_PATH \
-  -Dspring.profiles.active=dev \
-  \"$JAR_FILE\" \
-  > $LOG_PATH 2>&1 &"
+# -cp (not -jar): java -jar ignores CLASSPATH; config/ must be on classpath for i18n + logback
+CLASSPATH="${CONFIG_DIR}:${LIB_DIR}/*"
 
-# 输出 nohup 命令
-echo "Executing command: "
-echo "$NOHUP_COMMAND"
+JAVA_OPTS="${JAVA_OPTS:-}"
+LOGGING_CONFIG="${LOGGING_CONFIG:-file:${CONFIG_DIR}/logback-spring.xml}"
 
-# 启动应用程序
-eval $NOHUP_COMMAND
+echo "APP_HOME=${APP_HOME}"
+echo "MAIN_JAR=${MAIN_JAR}"
+echo "PROFILE=${PROFILE}"
+echo "CLASSPATH=${CLASSPATH}"
 
-# 打印进程ID
-echo "Started $APP_NAME with PID $!"
+nohup java ${JAVA_OPTS} \
+  -cp "${CLASSPATH}" \
+  -Dspring.profiles.active="${PROFILE}" \
+  -Dspring.config.additional-location="optional:file:${CONFIG_DIR}/" \
+  -Dlogging.config="${LOGGING_CONFIG}" \
+  com.scs.start.Application \
+  > "${OUT_FILE}" 2>&1 &
+
+echo $! > "${PID_FILE}"
+echo "Started ${APP_NAME} with PID $(cat "${PID_FILE}") (log: ${OUT_FILE})"

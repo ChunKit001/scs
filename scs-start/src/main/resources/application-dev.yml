@@ -1,15 +1,43 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: root
-    url: jdbc:mysql://localhost:3306/test
-    username: root
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/test}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3s
   main:
     lazy-initialization: true
+
+# 默认关：无 Redis / DB 也能起；需要时 SCS_*_ENABLED=true
+scs:
+  db:
+    enabled: ${SCS_DB_ENABLED:false}
+  redis:
+    enabled: ${SCS_REDIS_ENABLED:false}
 
 print:
   config: false
 
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: health,info,metrics,env,loggers
+
 logging:
   level:
     root: INFO
+    org.springframework.data.redis: INFO
+    com.scs.adapter.redis: INFO
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

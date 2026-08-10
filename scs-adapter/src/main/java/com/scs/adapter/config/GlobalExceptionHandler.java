@@ -1,13 +1,17 @@
 package com.scs.adapter.config;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.exception.BizException;
 import com.scs.app.ProjectException;
+import com.scs.client.dto.data.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
-import org.springframework.http.ProblemDetail;
+import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,57 +29,79 @@ public class GlobalExceptionHandler {
     @Qualifier("messageSource")
     private MessageSource messageSource;
 
-    //保底异常
     @ExceptionHandler(Exception.class)
     public Response baseHandler(HttpServletRequest request, Exception e) {
         log.error("GlobalExceptionHandler get a error [uri={},query={}]",
                 request.getRequestURI(), request.getQueryString(), e);
-        return Response.buildFailure("000000", "internal exception");
+        return failure(request, ErrorCode.S_INTERNAL);
     }
 
-    //业务异常
     @ExceptionHandler(ProjectException.class)
-    public Response bizHandler(HttpServletRequest request, ProjectException e) {
-
+    public Response projectHandler(HttpServletRequest request, ProjectException e) {
         String errCode = e.getErrCode();
         if (errCode == null || errCode.isEmpty()) {
-            errCode = "000000";
+            errCode = ErrorCode.S_INTERNAL.getErrCode();
         }
-
-        String[] errMessage = e.getErrMessage();
-
-        String message = messageSource.getMessage(errCode, errMessage, "", request.getLocale());
-
+        String message = messageSource.getMessage(errCode, e.getErrMessage(), "", request.getLocale());
+        if (message == null || message.isEmpty()) {
+            message = errCode;
+        }
         return Response.buildFailure(errCode, message);
     }
 
+    @ExceptionHandler(BizException.class)
+    public Response bizHandler(HttpServletRequest request, BizException e) {
+        String errCode = e.getErrCode();
+        if (errCode == null || errCode.isEmpty()) {
+            errCode = ErrorCode.S_INTERNAL.getErrCode();
+        }
+        String message = messageSource.getMessage(errCode, null, e.getMessage(), request.getLocale());
+        return Response.buildFailure(errCode, message);
+    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Response httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
-        try {
-            // String method = ex.getMethod();
-            ProblemDetail body = ex.getBody();
-            String title = body.getTitle();
-
-            return Response.buildFailure("000002", title);
-        } catch (Exception e) {
-            return Response.buildFailure("000002", "");
-        }
+    public Response httpRequestMethodNotSupportedException(HttpServletRequest request,
+                                                           HttpRequestMethodNotSupportedException ex) {
+        return failure(request, ErrorCode.P_METHOD_NOT_ALLOWED, ex.getMessage());
     }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Response handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        try {
-            List<ObjectError> errors = ex.getBindingResult().getAllErrors();
-            String message = errors.stream()
-                    .map(ObjectError::getDefaultMessage)
-                    .collect(Collectors.joining(","));
-
-            return Response.buildFailure("000003", message);
-        } catch (Exception e) {
-            return Response.buildFailure("000003", "");
-        }
+    public Response handleMethodArgumentNotValidException(HttpServletRequest request,
+                                                          MethodArgumentNotValidException ex) {
+        return validationFailure(request, ex.getBindingResult().getAllErrors());
     }
 
+    @ExceptionHandler(BindException.class)
+    public Response handleBindException(HttpServletRequest request, BindException ex) {
+        return validationFailure(request, ex.getBindingResult().getAllErrors());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Response handleConstraintViolationException(HttpServletRequest request,
+                                                       ConstraintViolationException ex) {
+        String detail = ex.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining(","));
+        return validationFailure(request, detail);
+    }
+
+    private Response validationFailure(HttpServletRequest request, List<ObjectError> errors) {
+        String detail = errors.stream()
+                .map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining(","));
+        return validationFailure(request, detail);
+    }
+
+    private Response validationFailure(HttpServletRequest request, String detail) {
+        String template = messageSource.getMessage(
+                ErrorCode.P_VALIDATION.getErrCode(), null, ErrorCode.P_VALIDATION.getErrDesc(), request.getLocale());
+        String message = detail == null || detail.isEmpty() ? template : template + ": " + detail;
+        return Response.buildFailure(ErrorCode.P_VALIDATION.getErrCode(), message);
+    }
+
+    private Response failure(HttpServletRequest request, ErrorCode errorCode, Object... args) {
+        String message = messageSource.getMessage(
+                errorCode.getErrCode(), args, errorCode.getErrDesc(), request.getLocale());
+        return Response.buildFailure(errorCode.getErrCode(), message);
+    }
 }

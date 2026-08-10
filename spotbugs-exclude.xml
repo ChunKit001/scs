@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SpotBugs / FindSecBugs 排除：生成代码与脚手架样板噪音 -->
+<FindBugsFilter>
+    <Match>
+        <Class name="~.*\.PojoConvertUtilImpl"/>
+    </Match>
+    <Match>
+        <Class name="~.*MapperImpl"/>
+    </Match>
+    <!-- Lombok / 编译生成 -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    </Match>
+</FindBugsFilter>
